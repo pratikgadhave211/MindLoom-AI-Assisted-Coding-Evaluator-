@@ -1,0 +1,7 @@
+*
+!docker/
+!docker/Dockerfile.workspace
+!src/
+!src/coding_agent/
+!src/coding_agent/workspace_core.py
+!src/coding_agent/container_runner.py

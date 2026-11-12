@@ -1,0 +1,24 @@
+FROM codercom/code-server@sha256:992796b850b8b7ec6f7393b8dd2295840a65cf5071981990ff41ef52dd566c43
+
+USER root
+RUN ln -s /usr/lib/code-server/lib/node /usr/local/bin/node \
+    && curl -fsSL --retry 3 https://registry.npmjs.org/npm/-/npm-11.6.2.tgz -o /tmp/npm.tgz \
+    && mkdir -p /usr/local/lib/node_modules/npm \
+    && tar -xzf /tmp/npm.tgz -C /usr/local/lib/node_modules/npm --strip-components=1 \
+    && rm /tmp/npm.tgz \
+    && ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
+    && ln -s /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends python3 python3-venv \
+    && rm -rf /var/lib/apt/lists/*
+RUN python3 -m venv /opt/challenge-venv \
+    && /opt/challenge-venv/bin/pip install --no-cache-dir flask==3.1.2 pytest==8.4.2 \
+    && test "$(du -sk /opt/challenge-venv | cut -f1)" -lt 102400
+RUN printf '%s\n' '#!/bin/sh' 'exec /opt/challenge-venv/bin/python "$@"' > /usr/local/bin/python \
+    && chmod +x /usr/local/bin/python \
+    && ln -s /usr/local/bin/python /usr/local/bin/python3 \
+    && ln -s /opt/challenge-venv/bin/flask /usr/local/bin/flask \
+    && ln -s /opt/challenge-venv/bin/pytest /usr/local/bin/pytest
+RUN git config --system --add safe.directory /workspace/challenge
+ENV PATH="/opt/challenge-venv/bin:${PATH}"
+USER coder

@@ -1,0 +1,17 @@
+FROM agentic_ide_evaluator-code-server:latest
+
+USER root
+RUN mkdir -p /opt/coding-agent /workspace/challenge \
+    && chown coder:coder /workspace/challenge
+RUN /opt/challenge-venv/bin/pip install --no-cache-dir fastapi==0.141.1 uvicorn==0.49.0
+# Install user packages into the workspace volume instead of the read-only image.
+ENV PIP_TARGET=/workspace/challenge/.agent-deps/python \
+    PYTHONPATH=/workspace/challenge/.agent-deps/python \
+    PIP_UPGRADE=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    NPM_CONFIG_CACHE=/workspace/challenge/.agent-deps/npm-cache
+ENV PATH=/workspace/challenge/.agent-deps/python/bin:$PATH
+COPY src/coding_agent/workspace_core.py src/coding_agent/container_runner.py /opt/coding-agent/
+RUN chmod -R a-w /opt/coding-agent
+USER coder

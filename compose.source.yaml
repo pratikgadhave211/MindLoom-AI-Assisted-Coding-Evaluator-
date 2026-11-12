@@ -1,0 +1,19 @@
+services:
+  source-ide:
+    build:
+      context: .
+      dockerfile: Dockerfile.source
+    working_dir: /workspace/code-server
+    volumes:
+      - ./code-server:/workspace/code-server
+      - source-root-modules:/workspace/code-server/node_modules
+      - source-vscode-modules-clean:/workspace/code-server/lib/vscode/node_modules
+      - source-npm-cache:/root/.npm
+    ports:
+      - "127.0.0.1:8081:8080"
+    command: npm run watch -- --bind-addr 0.0.0.0:8080 --auth none
+
+volumes:
+  source-root-modules:
+  source-vscode-modules-clean:
+  source-npm-cache:

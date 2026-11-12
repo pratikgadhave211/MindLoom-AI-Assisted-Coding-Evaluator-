@@ -1,0 +1,18 @@
+services:
+  code-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.code-server
+    environment:
+      PYTHONPATH: /workspace/challenge
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ./broken-repos/broken-flaskr-blog:/workspace/challenge
+      - code-server-config:/home/coder/.config
+      - code-server-flaskr-data:/home/coder/.local/share/code-server
+    command: --bind-addr 0.0.0.0:8080 /workspace/challenge
+
+volumes:
+  code-server-config:
+  code-server-flaskr-data:
