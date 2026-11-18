@@ -1,0 +1,10 @@
+{
+  "challenge_id": "flaskr-post-authorization",
+  "problem": "A logged-in user can change or delete another user's post by requesting its URL directly. Fix the authorization behavior without breaking a user's ability to manage their own posts.",
+  "author_approach": "Inspect how the post update and delete routes load a post and check ownership. Ensure both routes reject a non-author while allowing the author to manage their own post. Other correct implementations are possible.",
+  "prompt_limit": 10,
+  "relevant_files": ["flaskr/blog.py", "tests/test_blog.py"],
+  "expected_files": ["flaskr/blog.py"],
+  "example_patterns": ["check_author=True"],
+  "reference_patch": "reference.patch"
+}

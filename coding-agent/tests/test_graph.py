@@ -161,13 +161,21 @@ def test_tool_errors_and_unavailable_tools_are_returned(tmp_path):
     assert result["answer"] == "Cannot run tests."
 
 
-def test_too_many_tool_calls_are_not_executed(tmp_path):
+def test_more_than_twenty_five_tool_calls_are_executed(tmp_path):
     from coding_agent.graph import build_graph
 
     calls = [{"name": "list_files", "args": {"path": "."}, "id": str(i)} for i in range(26)]
-    result = build_graph(FakeModel(AIMessage(content="", tool_calls=calls)), workspace=tmp_path).invoke({"prompt": "List files"})
-    assert "tool call limit" in result["error"].lower()
-    assert not result.get("tool_calls")
+    class Model:
+        count = 0
+        def invoke(self, messages):
+            self.count += 1
+            if self.count == 1:
+                return AIMessage(content="", tool_calls=calls)
+            return AIMessage(content="done")
+
+    result = build_graph(Model(), workspace=tmp_path).invoke({"prompt": "List files"})
+    assert len(result["tool_calls"]) == 26
+    assert result["answer"] == "done"
 
 
 def test_twenty_five_tool_calls_are_allowed(tmp_path):

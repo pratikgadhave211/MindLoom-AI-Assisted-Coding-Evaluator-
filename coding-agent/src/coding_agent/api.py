@@ -29,6 +29,14 @@ class FileSave(BaseModel):
     expected_version: str
 
 
+class SubmissionRequest(BaseModel):
+    request_id: str
+
+
+class AttemptRequest(BaseModel):
+    challenge_id: str | None = None
+
+
 def create_app(manager=None, token=None):
     @asynccontextmanager
     async def lifespan(app):
@@ -48,6 +56,12 @@ def create_app(manager=None, token=None):
     def authorize(authorization: str = Header(default="")):
         if not token or not secrets.compare_digest(authorization, "Bearer " + token):
             raise HTTPException(status_code=401, detail="Unauthorized")
+
+    @app.get('/challenges', dependencies=[Depends(authorize)])
+    def challenges():
+        path = Path(__file__).resolve().parents[2] / 'challenges/flaskr-secure-search/challenge.json'
+        challenge = json.loads(path.read_text(encoding='utf-8'))
+        return {'challenges': [{key: challenge[key] for key in ('id', 'title', 'summary')}]}
 
     @app.websocket('/attempts/{attempt_id}/terminal')
     async def terminal_connection(websocket: WebSocket, attempt_id: str):
@@ -126,11 +140,43 @@ def create_app(manager=None, token=None):
                 pass
 
     @app.post("/attempts", status_code=201, dependencies=[Depends(authorize)])
-    def create_attempt():
+    def create_attempt(request: AttemptRequest | None = None):
         try:
-            return {"attempt_id": app.state.manager.create(), "status": "ready"}
+            attempt_id = app.state.manager.create(request.challenge_id) if request and request.challenge_id else app.state.manager.create()
+            return {"attempt_id": attempt_id, "status": "ready"}
+        except ValueError:
+            raise HTTPException(status_code=400, detail="Challenge unavailable.") from None
         except Exception:
             raise HTTPException(status_code=503, detail="Could not start an isolated workspace. Check Docker and PostgreSQL.") from None
+
+    @app.get('/attempts/{attempt_id}/question', dependencies=[Depends(authorize)])
+    def question(attempt_id: str):
+        try:
+            return app.state.manager.question(attempt_id)
+        except KeyError:
+            raise HTTPException(status_code=404, detail='Attempt not found.') from None
+
+    @app.post('/attempts/{attempt_id}/submissions', status_code=202, dependencies=[Depends(authorize)])
+    def submit(attempt_id: str, request: SubmissionRequest):
+        try:
+            request_id = str(UUID(request.request_id))
+        except (ValueError, AttributeError):
+            raise HTTPException(status_code=400, detail='Invalid request ID.') from None
+        try:
+            return app.state.manager.submit(attempt_id, request_id)
+        except KeyError:
+            raise HTTPException(status_code=404, detail='Attempt not found.') from None
+        except ValueError as error:
+            raise HTTPException(status_code=409, detail=str(error)) from None
+        except Exception:
+            raise HTTPException(status_code=503, detail='Could not prepare submission.') from None
+
+    @app.get('/attempts/{attempt_id}/submissions/{submission_id}', dependencies=[Depends(authorize)])
+    def submission(attempt_id: str, submission_id: str):
+        try:
+            return app.state.manager.submission(attempt_id, submission_id)
+        except KeyError:
+            raise HTTPException(status_code=404, detail='Submission not found.') from None
 
     @app.post("/attempts/{attempt_id}/resume", dependencies=[Depends(authorize)])
     def resume_attempt(attempt_id: str):
@@ -149,6 +195,15 @@ def create_app(manager=None, token=None):
             return app.state.manager.history(attempt_id)
         except KeyError:
             raise HTTPException(status_code=404, detail="Attempt not found.") from None
+
+    @app.get('/attempts/{attempt_id}/predictometer', dependencies=[Depends(authorize)])
+    def predictometer(attempt_id: str):
+        try:
+            return app.state.manager.predictometer(attempt_id)
+        except KeyError:
+            raise HTTPException(status_code=404, detail='Attempt not found.') from None
+        except Exception:
+            raise HTTPException(status_code=503, detail='Evaluation is temporarily unavailable.') from None
 
     @app.get('/attempts/{attempt_id}/chats', dependencies=[Depends(authorize)])
     def list_chats(attempt_id: str):

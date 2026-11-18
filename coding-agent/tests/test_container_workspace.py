@@ -87,3 +87,49 @@ def test_start_cleans_up_after_interrupt(monkeypatch, tmp_path):
 def test_resume_rejects_arbitrary_volume_names():
     with pytest.raises(ValueError, match="Invalid saved workspace"):
         container_workspace.resume_workspace("someone-else-volume")
+
+
+def test_resume_stops_old_owned_container_before_reopening_volume(monkeypatch):
+    volume = 'coding-agent-' + 'a' * 32 + '-workspace'
+    old = 'coding-agent-' + 'b' * 32
+    calls = []
+
+    def fake_docker(*args):
+        calls.append(args)
+        if args[0] == 'ps':
+            return SimpleNamespace(stdout=f'{old}\t{container_workspace.IMAGE}\n')
+        return SimpleNamespace(stdout='')
+
+    monkeypatch.setattr(container_workspace, 'docker', fake_docker)
+    container_workspace.resume_workspace(volume)
+    assert calls.index(('rm', '-f', old)) < next(i for i, call in enumerate(calls) if call[0] == 'run')
+
+
+def test_resume_does_not_stop_unknown_container(monkeypatch):
+    volume = 'coding-agent-' + 'a' * 32 + '-workspace'
+    calls = []
+
+    def fake_docker(*args):
+        calls.append(args)
+        return SimpleNamespace(stdout='other-container\tother-image\n' if args[0] == 'ps' else '')
+
+    monkeypatch.setattr(container_workspace, 'docker', fake_docker)
+    with pytest.raises(RuntimeError, match='workspace'):
+        container_workspace.resume_workspace(volume)
+    assert not any(call[0] in ('rm', 'run') for call in calls)
+
+
+def test_resume_unpauses_a_workspace_left_paused_by_an_interrupted_snapshot(monkeypatch):
+    volume = 'coding-agent-' + 'a' * 32 + '-workspace'
+    old = 'coding-agent-' + 'b' * 32
+    calls = []
+    def fake_docker(*args):
+        calls.append(args)
+        if args[0] == 'ps':
+            return SimpleNamespace(stdout=f'{old}\t{container_workspace.IMAGE}\n')
+        if args[0] == 'inspect':
+            return SimpleNamespace(stdout='true\n')
+        return SimpleNamespace(stdout='')
+    monkeypatch.setattr(container_workspace, 'docker', fake_docker)
+    container_workspace.resume_workspace(volume)
+    assert calls.index(('unpause', old)) < calls.index(('rm', '-f', old))

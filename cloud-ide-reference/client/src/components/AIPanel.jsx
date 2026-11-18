@@ -1,13 +1,32 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createWorkspaceApi } from '../workspaceApi';
 import { appendTimelineEvent, streamTurn } from '../agentStream';
+import ChallengePanel from './ChallengePanel';
 
-export default function AIPanel({ token, attempt, canStart, onRunningChange, onFinish }) {
+export default function AIPanel({ token, attempt, canStart, onRunningChange, onFinish, unsavedChanges, question }) {
   const [chats, setChats] = useState([]);
   const [selected, setSelected] = useState('');
   const [busy, setBusy] = useState(true);
   const [listError, setListError] = useState('');
+  const [evaluation, setEvaluation] = useState(null);
+  const [evaluationError, setEvaluationError] = useState(false);
   const storageKey = `agent-chat-${attempt}`;
+
+  useEffect(() => {
+    let cancelled = false;
+    let timer;
+    async function refresh() {
+      try {
+        const result = await createWorkspaceApi(token).predictometer(attempt);
+        if (!cancelled) { setEvaluation(result); setEvaluationError(false); }
+      } catch {
+        if (!cancelled) { setEvaluation(null); setEvaluationError(true); }
+      }
+      if (!cancelled) timer = setTimeout(refresh, 5000);
+    }
+    refresh();
+    return () => { cancelled = true; clearTimeout(timer); };
+  }, [token, attempt]);
 
   async function refreshChats() {
     const items = await createWorkspaceApi(token).chats(attempt);
@@ -45,6 +64,24 @@ export default function AIPanel({ token, attempt, canStart, onRunningChange, onF
   }
 
   return <aside className="w-80 shrink-0 flex flex-col bg-ide-sidebar border-l border-ide-border">
+    <ChallengePanel question={question} />
+    <section className="p-3 border-b border-ide-border space-y-2" aria-label="Experimental progress evaluation">
+      <div className="flex justify-between items-center text-sm">
+        <h2 className="font-semibold">Predictometer</h2>
+        <span>{evaluation?.status === 'assessing' ? 'Assessing…' : evaluation?.score != null ? `${evaluation.score} / 100` : 'Not enough evidence'}</span>
+      </div>
+      {evaluation?.score != null && <progress className="w-full" value={evaluation.score} max="100" aria-label="Experimental progress score" />}
+      <p className="text-xs text-ide-textMuted">Experimental progress signal, not a probability of success.</p>
+      {evaluation && <>
+        <p className="text-xs text-ide-textMuted">Prompts: {evaluation.prompt_count} / {evaluation.prompt_limit} (limit not enforced)</p>
+        <p className="text-xs text-ide-textMuted">Prompt: {evaluation.components.direction.status} · Code: {evaluation.components.comparison.status} · Rules: {evaluation.components.rules.status}</p>
+        {evaluation.coverage_reasons?.includes('command_activity') && <p className="text-xs text-ide-textMuted">Some command activity may not be tracked.</p>}
+        {evaluation.coverage_reasons?.includes('terminal_activity') && <p className="text-xs text-ide-textMuted">Some terminal activity may not be tracked.</p>}
+        {evaluation.coverage_reasons?.includes('recording_incomplete') && <p className="text-xs text-ide-textMuted">Some activity could not be recorded.</p>}
+      </>}
+      {unsavedChanges && <p className="text-xs text-ide-textMuted">Save your changes to include them in the assessment.</p>}
+      {evaluationError && <p role="status" className="text-xs text-ide-textMuted">Evaluation unavailable; retrying.</p>}
+    </section>
     <div className="p-3 border-b border-ide-border space-y-2">
       <div className="flex justify-between items-center"><h2 className="font-semibold">Coding agent</h2>
         <button type="button" disabled={busy} onClick={newChat} className="text-sm text-ide-accent disabled:opacity-50">+ New chat</button>

@@ -1,0 +1,20 @@
+--- a/flaskr/blog.py
++++ b/flaskr/blog.py
+@@ -92,7 +92,7 @@
+ @login_required
+ def update(id):
+     """Update a post if the current user is the author."""
+-    post = get_post(id)
++    post = get_post(id, check_author=True)
+ 
+     if request.method == "POST":
+         title = request.form["title"]
+@@ -122,7 +122,7 @@
+     Ensures that the post exists and that the logged in user is the
+     author of the post.
+     """
+-    get_post(id)
++    get_post(id, check_author=True)
+     db = get_db()
+     db.execute("DELETE FROM post WHERE id = ?", (id,))
+     db.commit()

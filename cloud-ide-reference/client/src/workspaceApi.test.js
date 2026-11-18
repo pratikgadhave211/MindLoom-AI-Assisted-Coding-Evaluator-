@@ -2,12 +2,47 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createWorkspaceApi, listWorkspace, parseListing } from './workspaceApi.js';
 
+test('loads the challenge list with authentication', async () => {
+  let request;
+  const api = createWorkspaceApi('token', async (url, options) => {
+    request = { url, options };
+    return { ok: true, json: async () => ({ challenges: [{ id: 'flaskr-secure-search' }] }) };
+  });
+  assert.equal((await api.challenges()).challenges[0].id, 'flaskr-secure-search');
+  assert.equal(request.url, '/agent-api/challenges');
+  assert.equal(request.options.headers.Authorization, 'Bearer token');
+});
+
 test('listing keeps file and folder names separate', () => {
   assert.deepEqual(parseListing('flaskr/\nREADME.md\n'), [
     { name: 'flaskr', directory: true }, { name: 'README.md', directory: false }
   ]);
   assert.deepEqual(parseListing('Directory is empty.'), []);
   assert.throws(() => parseListing('a\n[Listing truncated]'), /truncated/i);
+});
+
+test('predictometer requests the current attempt with authentication', async () => {
+  let request;
+  const api = createWorkspaceApi('token', async (url, options) => {
+    request = { url, options };
+    return { ok: true, json: async () => ({ status: 'ready', score: 72 }) };
+  });
+  assert.equal((await api.predictometer('attempt')).score, 72);
+  assert.equal(request.url, '/agent-api/attempts/attempt/predictometer');
+  assert.equal(request.options.headers.Authorization, 'Bearer token');
+});
+
+test('submission uses a stable request id and reads the saved report', async () => {
+  const requests = [];
+  const api = createWorkspaceApi('token', async (url, options) => {
+    requests.push({ url, options });
+    return { ok: true, json: async () => ({ submission_id: 'submission', status: 'running' }) };
+  });
+  await api.submit('attempt', 'request-id');
+  await api.submission('attempt', 'submission');
+  assert.equal(requests[0].url, '/agent-api/attempts/attempt/submissions');
+  assert.equal(JSON.parse(requests[0].options.body).request_id, 'request-id');
+  assert.equal(requests[1].url, '/agent-api/attempts/attempt/submissions/submission');
 });
 
 test('lists nested files using their workspace-relative paths', async () => {

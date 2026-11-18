@@ -1,0 +1,6 @@
+{
+  "id": "flaskr-secure-search",
+  "title": "Secure, searchable blog posts",
+  "summary": "Fix post authorization and add searchable, paginated blog posts.",
+  "behaviors": ["Post ownership", "Search", "Pagination", "Existing behavior"]
+}

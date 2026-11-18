@@ -10,7 +10,6 @@ from .tools import TOOLS, execute_tool_call, validate_tool_call
 from .diagnostics import log_event, log_error
 
 MODEL_CALL_LIMIT = 25
-TOOL_CALL_LIMIT = 25
 ORIGINAL_INSTRUCTIONS = "You are a coding assistant. Inspect and edit the workspace using the available tools. Run tests when appropriate. Report actual tool results and do not claim tests passed if they failed or were not run."
 INSTRUCTIONS = ORIGINAL_INSTRUCTIONS + (
     " Give brief user-facing progress updates at meaningful findings, changes of direction, blockers, "
@@ -122,9 +121,6 @@ def build_graph(model, jev_checker=None, workspace=None, checkpointer=None):
             update["error"] = "Model call limit reached; the task is incomplete."
         return update
 
-    def tool_limit(state):
-        return {"error": "Tool call limit reached; the task is incomplete."}
-
     def next_tool(state):
         invalid, call = state["pending_calls"][0]
         name = call.get("name")
@@ -136,8 +132,6 @@ def build_graph(model, jev_checker=None, workspace=None, checkpointer=None):
         if state.get("error") or workspace is None:
             return "show_result"
         if state.get("pending_calls"):
-            if state.get("tool_count", 0) + len(state["pending_calls"]) > TOOL_CALL_LIMIT:
-                return "tool_limit"
             return next_tool(state)
         return "finish"
 
@@ -160,7 +154,6 @@ def build_graph(model, jev_checker=None, workspace=None, checkpointer=None):
     for name in tool_names:
         graph.add_node(name, execute_tool)
     graph.add_node("invalid_tool", execute_tool)
-    graph.add_node("tool_limit", tool_limit)
     graph.add_node("finish", finish)
     graph.add_edge(START, "check_prompt")
     graph.add_conditional_edges("check_prompt", lambda state: "show_result" if state.get("error") else "check_with_jev")
@@ -168,7 +161,6 @@ def build_graph(model, jev_checker=None, workspace=None, checkpointer=None):
     graph.add_conditional_edges("ask_model", after_model)
     for name in tool_names | {"invalid_tool"}:
         graph.add_conditional_edges(name, after_tool)
-    graph.add_edge("tool_limit", END)
     graph.add_edge("show_result", END)
     graph.add_edge("finish", END)
     return graph.compile(checkpointer=checkpointer)

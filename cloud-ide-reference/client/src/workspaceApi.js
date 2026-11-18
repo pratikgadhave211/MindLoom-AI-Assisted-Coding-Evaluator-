@@ -15,9 +15,16 @@ export function createWorkspaceApi(token, send = fetch) {
   }
 
   return {
-    create: () => request('/attempts', { method: 'POST' }),
+    challenges: () => request('/challenges'),
+    create: challengeId => request('/attempts', { method: 'POST', ...(challengeId ? { body: JSON.stringify({ challenge_id: challengeId }) } : {}) }),
     resume: attempt => request(`/attempts/${attempt}/resume`, { method: 'POST' }),
+    question: attempt => request(`/attempts/${attempt}/question`),
+    submit: (attempt, requestId) => request(`/attempts/${attempt}/submissions`, {
+      method: 'POST', body: JSON.stringify({ request_id: requestId })
+    }),
+    submission: (attempt, submissionId) => request(`/attempts/${attempt}/submissions/${submissionId}`),
     history: attempt => request(`/attempts/${attempt}/history`),
+    predictometer: attempt => request(`/attempts/${attempt}/predictometer`),
     chats: attempt => request(`/attempts/${attempt}/chats`),
     createChat: attempt => request(`/attempts/${attempt}/chats`, { method: 'POST' }),
     chatHistory: (attempt, chat) => request(`/attempts/${attempt}/chats/${chat}/history`),

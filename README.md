@@ -137,7 +137,7 @@ The intended evaluator will collect attempt evidence, run tests on a submitted s
 - Workspace containers use Docker's shared network bridge and can reach the network; separate volumes do not provide network isolation. Additional isolation is needed before running untrusted users' code publicly.
 - Commands have a 120-second timeout, and workspace volume disk usage is not currently capped. Python target-folder installs do not support every editable-install or `.pth`-based package workflow.
 - `run_tests` currently runs `python -m pytest -q`; it does not automatically select test commands for other project types.
-- The agent limits each prompt to 25 model calls and 25 tool calls. Model availability, tool-call behavior, and progress messages are not guaranteed.
+- The agent limits each prompt to 25 model calls; there is no separate tool-call limit. Model availability, tool-call behavior, and progress messages are not guaranteed.
 - The repository contains nested Git repositories. Before publishing, decide whether to keep them as separate repositories or include their source in one repository. `.gitignore` does not untrack files that are already tracked.
 
 Never commit API keys, database passwords, local tokens, or private workspace data. Review tracked files and repository history before pushing.

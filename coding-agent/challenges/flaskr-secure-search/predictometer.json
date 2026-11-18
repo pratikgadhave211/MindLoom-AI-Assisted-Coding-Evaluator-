@@ -1,0 +1,10 @@
+{
+  "challenge_id": "flaskr-secure-search",
+  "problem": "Only post authors may update or delete their posts; logged-out users must be redirected. Add case-insensitive literal title/body search using q, trimming whitespace. Paginate search results five per page, ordered newest first with descending post ID as a tie-breaker, and preserve q in links. Invalid and out-of-range pages return 404; an empty first page is valid. Preserve existing behavior.",
+  "author_approach": "Check post ownership on both routes, apply a literal case-insensitive search before pagination, sort deterministically, validate page numbers, and provide navigation preserving the query. Treat search as data. Other correct implementations are possible.",
+  "prompt_limit": 10,
+  "relevant_files": ["flaskr/blog.py", "flaskr/templates/blog/index.html", "tests/test_challenge_visible.py"],
+  "expected_files": ["flaskr/blog.py", "flaskr/templates/blog/index.html"],
+  "example_patterns": ["check_author=True"],
+  "reference_patch": "reference.patch"
+}

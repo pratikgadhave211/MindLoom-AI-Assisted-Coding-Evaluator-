@@ -70,6 +70,17 @@ def resume_workspace(volume: str) -> Attempt:
     attempt = Attempt(container="coding-agent-" + uuid.uuid4().hex, volume=volume)
     try:
         docker("volume", "inspect", volume)
+        # A crashed server can leave its old container and commands running.
+        running = docker("ps", "--filter", f"volume={volume}", "--format", "{{.Names}}\t{{.Image}}")
+        containers = [line.split('\t') for line in running.stdout.splitlines()]
+        if any(len(item) != 2 or not re.fullmatch(r"coding-agent-[0-9a-f]{32}", item[0])
+               or item[1] != IMAGE for item in containers):
+            raise RuntimeError("Cannot resume the workspace while another container is using it.")
+        for name, _ in containers:
+            state = docker('inspect', '--format', '{{.State.Paused}}', name).stdout.strip()
+            if state == 'true':
+                docker('unpause', name)
+            docker("rm", "-f", name)
         launch_container(attempt)
         return attempt
     except (OSError, subprocess.SubprocessError, KeyboardInterrupt) as error:

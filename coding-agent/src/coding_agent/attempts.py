@@ -10,8 +10,15 @@ from langchain_core.messages import AIMessage, HumanMessage
 from .agent import run_turn
 from .config import load_config
 from .container_workspace import start_workspace, stop_workspace, resume_workspace, run_workspace_tool, docker
-from .memory import open_memory, get_workspace, save_workspace, ensure_original_chat, append_chat_event
+from .memory import open_memory, get_workspace, get_challenge, save_workspace, ensure_original_chat, append_chat_event, record_evidence, get_evidence
+from .sanity import check_prompt
 from .diagnostics import log_error
+from .direction import run_direction_check, run_latest_direction_check, load_challenge, load_code_context, latest_direction, latest_code
+from .predictometer import combine_signals
+from .predictometer_rules import evaluate_rules
+from .submission_snapshot import create_snapshot, snapshot_name
+from .submissions import evaluate_submission
+from .submission_tests import cleanup_submission
 
 
 class Turn:
@@ -49,8 +56,10 @@ class AttemptManager:
         self.attempts = {}
         self.lock = threading.Lock()
 
-    def create(self):
-        return self._open(str(uuid4()), resume=False)
+    def create(self, challenge_id='flaskr-post-authorization'):
+        if challenge_id not in ('flaskr-post-authorization', 'flaskr-secure-search'):
+            raise ValueError('Unknown challenge.')
+        return self._open(str(uuid4()), resume=False, challenge_id=challenge_id)
 
     def resume(self, attempt_id):
         return self._open(attempt_id, resume=True)
@@ -61,7 +70,7 @@ class AttemptManager:
             attempt['chat_memory'] = SimpleNamespace(conn=conn)
         return attempt['chat_memory']
 
-    def _open(self, attempt_id, resume):
+    def _open(self, attempt_id, resume, challenge_id=None):
         with self.lock:
             if attempt_id in self.attempts:
                 raise ValueError("Attempt is already open.")
@@ -75,17 +84,28 @@ class AttemptManager:
                 volume = get_workspace(memory, attempt_id) if resume else None
                 if resume and not volume:
                     raise KeyError(attempt_id)
-                template = Path(__file__).resolve().parents[3] / "broken-repos" / "broken-flaskr-blog"
+                if resume:
+                    challenge_id = get_challenge(memory, attempt_id) or 'flaskr-post-authorization'
+                    interrupted = memory.conn.execute("SELECT id, status, snapshot FROM submissions WHERE attempt_id = %s AND status IN ('preparing', 'running', 'testing', 'reviewing')", (attempt_id,)).fetchall()
+                    for row in interrupted:
+                        cleanup_submission(row['id'])
+                        if row['status'] == 'preparing' and row['snapshot'] == snapshot_name(row['id']):
+                            volumes = docker('volume', 'ls', '--format', '{{.Name}}').stdout.splitlines()
+                            if row['snapshot'] in volumes:
+                                docker('volume', 'rm', row['snapshot'])
+                folder = 'flaskr-secure-search' if challenge_id == 'flaskr-secure-search' else 'broken-flaskr-blog'
+                template = Path(__file__).resolve().parents[3] / 'broken-repos' / folder
                 workspace = resume_workspace(volume) if resume else start_workspace(template)
                 if not resume:
-                    save_workspace(memory, attempt_id, workspace.volume)
+                    save_workspace(memory, attempt_id, workspace.volume, challenge_id)
                 chats_enabled = bool(memory.conn.execute('SELECT id FROM agent_chats WHERE id = %s',
                                                           (attempt_id,)).fetchone()) if resume else False
                 if resume:
                     memory.conn.execute("UPDATE agent_requests SET status = 'interrupted' WHERE attempt_id = %s AND status = 'running'", (attempt_id,))
+                    memory.conn.execute("UPDATE submissions SET status = 'interrupted' WHERE attempt_id = %s AND status IN ('preparing', 'running', 'testing', 'reviewing')", (attempt_id,))
                 self.attempts[attempt_id] = {"workspace": workspace, "memory": memory,
                     "memory_context": memory_context, "config": config, "busy": False, "turns": {},
-                    "chats_enabled": chats_enabled}
+                    "chats_enabled": chats_enabled, "challenge_id": challenge_id}
             except BaseException:
                 if workspace is not None:
                     stop_workspace(workspace)
@@ -94,6 +114,7 @@ class AttemptManager:
         return attempt_id
 
     def start_turn(self, attempt_id, prompt, chat_id=None, request_id=None):
+        prompt = check_prompt(prompt)
         with self.lock:
             attempt = self.attempts[attempt_id]
             if request_id:
@@ -121,10 +142,10 @@ class AttemptManager:
                 self._check_chat(attempt, attempt_id, chat_id)
             attempt["busy"] = True
             turn_id = str(uuid4())
-            if chat_id:
-                try:
-                    chat_memory = self._chat_memory(attempt)
-                    with chat_memory.conn.transaction():
+            try:
+                chat_memory = self._chat_memory(attempt)
+                with chat_memory.conn.transaction():
+                    if chat_id:
                         if request_id:
                             row = chat_memory.conn.execute(
                                 "INSERT INTO agent_requests (request_id, attempt_id, chat_id, prompt, turn_id, status) VALUES (%s, %s, %s, %s, %s, 'running') ON CONFLICT DO NOTHING RETURNING request_id",
@@ -134,12 +155,29 @@ class AttemptManager:
                         append_chat_event(chat_memory, chat_id, turn_id, {'type': 'prompt', 'message': prompt})
                         chat_memory.conn.execute("UPDATE agent_chats SET title = %s WHERE id = %s AND title = 'New chat'",
                                                        (prompt[:60], chat_id))
-                except Exception:
-                    attempt['busy'] = False
-                    raise
+                    record_evidence(chat_memory, attempt_id, f'prompt:{turn_id}',
+                                    {'type': 'prompt_accepted', 'source': 'user', 'turn_id': turn_id, 'chat_id': chat_id})
+            except Exception:
+                attempt['busy'] = False
+                raise
             def save_event(event):
-                append_chat_event(chat_memory, chat_id, turn_id, event)
-            save = save_event if chat_id else None
+                if chat_id:
+                    try:
+                        append_chat_event(chat_memory, chat_id, turn_id, event)
+                    except Exception:
+                        attempt['evidence_incomplete'] = True
+                        raise
+                if event['type'] in ('tool_started', 'tool_finished', 'tool_limit_reached', 'model_call'):
+                    evidence = {key: event[key] for key in ('type', 'name', 'path', 'status', 'call_id', 'limit', 'usage', 'model', 'provider', 'result_truncated') if key in event}
+                    evidence.update({'source': 'agent', 'turn_id': turn_id, 'chat_id': chat_id})
+                    if event.get('type') == 'tool_started' and event.get('name') == 'run_command':
+                        evidence['changes_tracked'] = False
+                    try:
+                        record_evidence(chat_memory, attempt_id, f'turn:{turn_id}:{event["id"]}', evidence)
+                    except Exception as error:
+                        attempt['evidence_incomplete'] = True
+                        log_error('predictometer evidence error', error)
+            save = save_event
             turn = Turn(chat_id, save)
             attempt["turns"][turn_id] = turn
 
@@ -170,6 +208,12 @@ class AttemptManager:
                         turn.publish({'type': 'error', 'message': 'Could not save the request status. Check the workspace before retrying.'})
                 with self.lock:
                     attempt["busy"] = False
+                    # Assess only after a completed turn has finished changing files.
+                    if turn.status == 'completed' and getattr(attempt['config'], 'jev_api_key', ''):
+                        extra = (attempt['challenge_id'],) if attempt.get('challenge_id', 'flaskr-post-authorization') != 'flaskr-post-authorization' else ()
+                        self._start_assessment(attempt_id, attempt, run_direction_check,
+                            (attempt['config'].checkpoint_database_url, attempt_id, turn_id,
+                             prompt, attempt['config'].jev_api_key, attempt['workspace']) + extra)
                 with turn.condition:
                     turn.done = True
                     turn.condition.notify_all()
@@ -293,7 +337,166 @@ class AttemptManager:
                 raise ValueError('Disconnect the terminal before saving a file.')
             if not attempt["workspace"].active:
                 raise ValueError("The workspace is stopped.")
-            return run_workspace_tool(attempt["workspace"], name, args)
+            result = run_workspace_tool(attempt["workspace"], name, args)
+            if name == 'write_editor_file' and result.get('status') == 'completed':
+                try:
+                    record_evidence(self._chat_memory(attempt), attempt_id, f'file:{uuid4()}',
+                                    {'type': 'file_saved', 'source': 'user', 'path': args.get('path', '')})
+                except Exception as error:
+                    attempt['evidence_incomplete'] = True
+                    log_error('predictometer evidence error', error)
+                self._refresh_predictometer(attempt_id, attempt)
+            return result
+
+    def _start_assessment(self, attempt_id, attempt, target, args):
+        generation = attempt.get('assessment_generation', 0) + 1
+        attempt['assessment_generation'] = generation
+        attempt['assessment_running'] = True
+
+        def assess():
+            try:
+                target(*args)
+            finally:
+                with self.lock:
+                    if self.attempts.get(attempt_id) is attempt and attempt.get('assessment_generation') == generation:
+                        attempt['assessment_running'] = False
+        try:
+            threading.Thread(target=assess, daemon=True).start()
+        except RuntimeError as error:
+            attempt['assessment_running'] = False
+            log_error('predictometer refresh error', error)
+
+    def _refresh_predictometer(self, attempt_id, attempt):
+        config = attempt.get('config')
+        if getattr(config, 'jev_api_key', ''):
+            extra = (attempt['challenge_id'],) if attempt.get('challenge_id', 'flaskr-post-authorization') != 'flaskr-post-authorization' else ()
+            self._start_assessment(attempt_id, attempt, run_latest_direction_check,
+                                   (config.checkpoint_database_url, attempt_id, config.jev_api_key, attempt['workspace']) + extra)
+
+    def evidence(self, attempt_id):
+        with self.lock:
+            attempt = self.attempts[attempt_id]
+            result = get_evidence(self._chat_memory(attempt), attempt_id)
+            result['incomplete'] = bool(attempt.get('evidence_incomplete')) or any(
+                row['event'].get('changes_tracked') is False for row in result['events'])
+            return result
+
+    def question(self, attempt_id):
+        with self.lock:
+            attempt = self.attempts[attempt_id]
+            challenge_id = attempt.get('challenge_id', 'flaskr-post-authorization')
+            if challenge_id == 'flaskr-secure-search':
+                question = Path(__file__).resolve().parents[2] / 'challenges/flaskr-secure-search/question.md'
+                return {'challenge_id': challenge_id, 'title': 'Secure, searchable blog posts',
+                        'question': question.read_text(encoding='utf-8')}
+            return {'challenge_id': challenge_id, 'title': 'Blog post authorization',
+                    'question': load_challenge()['problem']}
+
+    def submit(self, attempt_id, request_id):
+        with self.lock:
+            attempt = self.attempts[attempt_id]
+            connection = self._chat_memory(attempt).conn
+            previous = connection.execute('SELECT id, status FROM submissions WHERE attempt_id = %s AND request_id = %s',
+                                          (attempt_id, request_id)).fetchone()
+            if previous:
+                return {'submission_id': previous['id'], 'status': previous['status']}
+            if attempt.get('challenge_id') != 'flaskr-secure-search':
+                raise ValueError('Start the secure search challenge before submitting.')
+            if attempt.get('busy') or attempt.get('terminal_open') or attempt.get('submission_running'):
+                raise ValueError('Wait for the agent, terminal and previous submission to finish.')
+            if not attempt['workspace'].active:
+                raise ValueError('The workspace is stopped.')
+            submission_id = str(uuid4())
+            snapshot = snapshot_name(submission_id)
+            connection.execute("INSERT INTO submissions (id, attempt_id, request_id, snapshot, status) VALUES (%s, %s, %s, %s, 'preparing')",
+                               (submission_id, attempt_id, request_id, snapshot))
+            try:
+                create_snapshot(attempt['workspace'], submission_id)
+                revision = connection.execute('SELECT COALESCE(MAX(id), 0) AS revision FROM predictometer_events WHERE attempt_id = %s',
+                                              (attempt_id,)).fetchone()['revision']
+                chat_revision = connection.execute('''SELECT COALESCE(MAX(e.id), 0) AS revision FROM agent_chat_events e
+                    JOIN agent_chats c ON c.id = e.chat_id WHERE c.attempt_id = %s''', (attempt_id,)).fetchone()['revision']
+                connection.execute("UPDATE submissions SET status = 'running' WHERE id = %s", (submission_id,))
+            except Exception:
+                try:
+                    docker('volume', 'rm', snapshot)
+                except Exception:
+                    pass
+                connection.execute("UPDATE submissions SET status = 'failed' WHERE id = %s", (submission_id,))
+                raise
+            attempt['submission_running'] = True
+
+            def worker():
+                try:
+                    evaluate_submission(attempt['config'], attempt_id, submission_id, snapshot, revision, chat_revision,
+                                        bool(attempt.get('evidence_incomplete')))
+                finally:
+                    with self.lock:
+                        if self.attempts.get(attempt_id) is attempt:
+                            attempt['submission_running'] = False
+            try:
+                threading.Thread(target=worker, daemon=True).start()
+            except RuntimeError:
+                attempt['submission_running'] = False
+                connection.execute("UPDATE submissions SET status = 'failed' WHERE id = %s", (submission_id,))
+                raise
+            return {'submission_id': submission_id, 'status': 'running'}
+
+    def submission(self, attempt_id, submission_id):
+        with self.lock:
+            attempt = self.attempts[attempt_id]
+            row = self._chat_memory(attempt).conn.execute(
+                'SELECT id, status, report FROM submissions WHERE id = %s AND attempt_id = %s',
+                (submission_id, attempt_id)).fetchone()
+            if not row:
+                raise KeyError(submission_id)
+            return {'submission_id': row['id'], 'status': row['status'], 'report': row['report']}
+
+    def predictometer(self, attempt_id):
+        with self.lock:
+            attempt = self.attempts[attempt_id]
+            evidence = get_evidence(self._chat_memory(attempt), attempt_id)
+            rows = evidence['events']
+            revision = evidence['revision']
+            challenge_id = attempt.get('challenge_id', 'flaskr-post-authorization')
+            challenge = load_challenge() if challenge_id == 'flaskr-post-authorization' else load_challenge(challenge_id)
+            incomplete = bool(attempt.get('evidence_incomplete')) or any(
+                row['event'].get('changes_tracked') is False for row in rows)
+            reasons = []
+            if any(row['event'].get('type') == 'tool_started' and row['event'].get('name') == 'run_command' for row in rows):
+                reasons.append('command_activity')
+            if any(row['event'].get('type') == 'terminal_opened' for row in rows):
+                reasons.append('terminal_activity')
+            if attempt.get('evidence_incomplete') or (incomplete and not reasons):
+                reasons.append('recording_incomplete')
+            direction = latest_direction(rows)
+            comparison = latest_code(rows)
+            rules = {'status': 'unavailable', 'score': None}
+            assessing = attempt.get('busy') or attempt.get('assessment_running')
+            if assessing or attempt.get('terminal_open'):
+                comparison = {'status': 'pending', 'score': None}
+                rules['status'] = 'pending'
+            else:
+                try:
+                    context = load_code_context(challenge, attempt['workspace'])
+                    if context is not None:
+                        outcome = evaluate_rules(challenge, [row['event'] for row in rows],
+                                                 context['original'], context['current'], incomplete)
+                        rules = {'status': 'ready' if outcome['score'] is not None else 'unavailable',
+                                 'score': outcome['score']}
+                except Exception as error:
+                    log_error('predictometer rules error', error)
+            signals = {'direction': direction, 'comparison': comparison, 'rules': rules}
+            for signal in signals.values():
+                signal['revision'] = revision
+            result = combine_signals(signals, revision)
+            if assessing:
+                result.update({'status': 'assessing', 'score': None})
+            elif comparison['status'] != 'ready':
+                result.update({'status': 'insufficient_evidence', 'score': None})
+            result.update({'prompt_count': evidence['prompt_count'], 'prompt_limit': challenge['prompt_limit'],
+                           'components': signals, 'coverage_incomplete': incomplete, 'coverage_reasons': reasons})
+            return result
 
     def terminal_workspace(self, attempt_id):
         with self.lock:
@@ -304,6 +507,12 @@ class AttemptManager:
                 raise ValueError('Wait for the agent to finish before opening the terminal.')
             if attempt.get('terminal_open'):
                 raise ValueError('A terminal is already open for this attempt.')
+            try:
+                record_evidence(self._chat_memory(attempt), attempt_id, f'terminal:{uuid4()}',
+                                {'type': 'terminal_opened', 'source': 'user', 'changes_tracked': False})
+            except Exception as error:
+                attempt['evidence_incomplete'] = True
+                log_error('predictometer evidence error', error)
             attempt['terminal_open'] = True
             return attempt['workspace'].container
 
@@ -319,6 +528,7 @@ class AttemptManager:
                     raise
                 finally:
                     attempt['terminal_open'] = False
+                self._refresh_predictometer(attempt_id, attempt)
 
     def start_ide(self, attempt_id):
         with self.lock:
@@ -348,7 +558,7 @@ class AttemptManager:
     def close(self, attempt_id):
         with self.lock:
             attempt = self.attempts[attempt_id]
-            if attempt["busy"]:
+            if attempt["busy"] or attempt.get('submission_running'):
                 raise ValueError("An agent turn is still running.")
             if attempt.get("ide_container"):
                 docker("rm", "-f", attempt["ide_container"])

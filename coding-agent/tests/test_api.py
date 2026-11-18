@@ -1,6 +1,22 @@
 from fastapi.testclient import TestClient
 
 
+def test_predictometer_requires_auth_and_returns_safe_attempt_result():
+    from coding_agent.api import create_app
+
+    class Manager:
+        def predictometer(self, attempt_id):
+            if attempt_id != 'one':
+                raise KeyError(attempt_id)
+            return {'status': 'ready', 'score': 72, 'prompt_count': 2}
+
+    client = TestClient(create_app(manager=Manager(), token='test'))
+    assert client.get('/attempts/one/predictometer').status_code == 401
+    headers = {'Authorization': 'Bearer test'}
+    assert client.get('/attempts/one/predictometer', headers=headers).json()['score'] == 72
+    assert client.get('/attempts/other/predictometer', headers=headers).status_code == 404
+
+
 def test_api_requires_token_and_starts_a_turn():
     from coding_agent.api import create_app
 

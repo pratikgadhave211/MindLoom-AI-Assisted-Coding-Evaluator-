@@ -1,0 +1,4 @@
+{
+  "areas": ["Problem-solving approach", "Use of AI", "Verification", "Code and collaboration", "Reflection"],
+  "instructions": "Use evidence IDs. Distinguish observation from inference. Do not infer private reasoning. State missing evidence. Test results decide correctness."
+}

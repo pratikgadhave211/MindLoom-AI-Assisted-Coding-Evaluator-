@@ -14,6 +14,7 @@ from .tools import TOOLS
 from .container_workspace import start_workspace, stop_workspace, resume_workspace
 from .memory import open_memory, get_workspace, save_workspace
 from .tracing import run_graph
+from .agent import prepare_checkpoint
 
 
 def main(argv=None):
@@ -57,9 +58,7 @@ def main(argv=None):
                     save_workspace(memory, thread_id, str(getattr(workspace, "volume", workspace)))
                 graph = build_graph(model, jev_checker, workspace, checkpointer=memory)
                 graph_config = {"configurable": {"thread_id": thread_id}}
-                if graph.get_state(graph_config).next:
-                    print("The previous turn was interrupted. Automatic tool replay is disabled; start a new conversation.")
-                    return 1
+                prepare_checkpoint(graph, graph_config, workspace)
                 result = run_graph(graph, prompt, config, thread_id=thread_id)
             finally:
                 if workspace is not None:

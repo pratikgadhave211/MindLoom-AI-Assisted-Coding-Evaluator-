@@ -35,6 +35,7 @@ def test_retries_reuse_turn_and_survive_reopening(monkeypatch):
         return {'answer': 'done'}
 
     monkeypatch.setattr(attempts, 'run_turn', run)
+    monkeypatch.setattr(attempts, 'run_direction_check', lambda *args: None)
     manager = attempts.AttemptManager()
     client = TestClient(create_app(manager=manager, token='test'))
     headers = {'Authorization': 'Bearer test'}
@@ -54,6 +55,7 @@ def test_retries_reuse_turn_and_survive_reopening(monkeypatch):
         assert again.status_code == 202
         assert again.json()['turn_id'] == first.json()['turn_id']
         assert again.json()['status'] == 'running'
+        assert manager.evidence(attempt)['prompt_count'] == 1
         assert client.post(url, headers=headers, json={**payload, 'prompt': 'different'}).status_code == 409
         other_chat = client.post(base + '/chats', headers=headers)
         assert other_chat.status_code == 409
@@ -64,6 +66,7 @@ def test_retries_reuse_turn_and_survive_reopening(monkeypatch):
         assert finished == {'turn_id': turn, 'status': 'completed'}
         assert calls == ['fix login']
         assert client.post(url, headers=headers, json={'prompt': 'hello', 'request_id': 'not-a-uuid'}).status_code == 400
+        assert manager.evidence(attempt)['prompt_count'] == 1
         other = client.post(base + '/chats', headers=headers).json()['id']
         assert client.post(base + f'/chats/{other}/turns', headers=headers, json=payload).status_code == 409
         interrupted_id = str(uuid4())
@@ -74,6 +77,7 @@ def test_retries_reuse_turn_and_survive_reopening(monkeypatch):
         client.delete(base, headers=headers)
         assert client.post(base + '/resume', headers=headers).status_code == 200
         assert client.post(url, headers=headers, json=payload).json() == finished
+        assert manager.evidence(attempt)['prompt_count'] == 1
         assert client.post(url, headers=headers, json={'prompt': 'interrupted', 'request_id': interrupted_id}).json() == {
             'turn_id': interrupted_turn, 'status': 'interrupted'}
         assert calls == ['fix login']
@@ -90,6 +94,8 @@ def test_retries_reuse_turn_and_survive_reopening(monkeypatch):
         client.get(base + f'/chats/{chat}/turns/{logging_turn}/events', headers=headers)
         assert client.post(url, headers=headers, json=logging_payload).json()['status'] == 'interrupted'
         assert calls == ['fix login', 'fail logging']
+        assert manager.evidence(attempt)['prompt_count'] == 2
+        assert manager.evidence(attempt)['incomplete'] is True
     finally:
         release.set()
         if attempt in manager.attempts:

@@ -91,6 +91,10 @@ def test_chats_share_workspace_but_not_model_history(monkeypatch):
         assert history[1]['content'] == 'I will inspect the blog.'
         assert history[1]['event_key'].startswith(turn + ':')
         assert any(item['role'] == 'tool' and 'read_file' in item['content'] for item in history)
+        evidence = manager.evidence(attempt)
+        assert evidence['prompt_count'] == 3
+        assert any(row['event'].get('type') == 'file_saved' and row['event'].get('path') == path for row in evidence['events'])
+        assert any(row['event'].get('type') == 'tool_finished' and row['event'].get('path') == path for row in evidence['events'])
         assert client.get(base + f'/chats/{attempt}/turns/{turn}/events', headers=headers).status_code == 404
         assert '# shared workspace test' in client.get(base + '/file', headers=headers, params={'path': path}).json()['content']
         turn = client.post(base + f'/chats/{attempt}/turns', headers=headers, json={'prompt': 'follow up'}).json()['turn_id']
@@ -105,6 +109,7 @@ def test_chats_share_workspace_but_not_model_history(monkeypatch):
         assert any(item['role'] == 'progress' and item['content'] == 'I will inspect the blog.' for item in restored)
         assert restored[-1]['role'] == 'error'
         assert len(client.get(base + '/chats', headers=headers).json()) == 2
+        assert manager.evidence(attempt)['prompt_count'] == 5
     finally:
         if attempt in manager.attempts:
             manager.close(attempt)

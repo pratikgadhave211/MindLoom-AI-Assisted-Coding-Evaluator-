@@ -1,6 +1,6 @@
 import threading
 import time
-from contextlib import contextmanager
+from contextlib import contextmanager, nullcontext
 from types import SimpleNamespace
 
 import pytest
@@ -33,6 +33,8 @@ def test_turns_keep_same_workspace_and_reject_overlap(monkeypatch):
     monkeypatch.setattr(attempts, "run_turn", run)
     monkeypatch.setattr(attempts, "run_workspace_tool", lambda workspace, name, args: {"status": "completed", "result": "ok"})
     manager = attempts.AttemptManager()
+    monkeypatch.setattr(manager, '_chat_memory', lambda attempt: SimpleNamespace(conn=SimpleNamespace(transaction=nullcontext)))
+    monkeypatch.setattr(attempts, 'record_evidence', lambda *args: None)
     attempt_id = manager.create()
     turn_id = manager.start_turn(attempt_id, "first")
     assert entered.wait(5)
