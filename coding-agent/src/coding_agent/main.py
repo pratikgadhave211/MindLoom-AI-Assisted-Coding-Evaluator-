@@ -7,9 +7,11 @@ import psycopg
 
 from .config import load_config
 from .graph import build_graph
-from .jev import check_with_jev
+from .jev import check_input_safety
+from .input_guardrail import check_input
 from .model import make_model, model_error
 from .sanity import check_prompt
+from .privacy import protect_prompt
 from .tools import TOOLS
 from .container_workspace import start_workspace, stop_workspace, resume_workspace
 from .memory import open_memory, get_workspace, save_workspace
@@ -29,19 +31,19 @@ def main(argv=None):
     # Read one prompt and display the model's answer or tool requests.
     try:
         prompt = check_prompt(input("Your prompt: "))
+        prompt, masked_count = protect_prompt(prompt)
+        if masked_count:
+            print("Sensitive information was replaced before sending to the agent.")
         config = load_config()
         if not config.checkpoint_database_url:
             raise ValueError("Set CHECKPOINT_DATABASE_URL in .env before starting the agent.")
-    except (ValueError, EOFError, KeyboardInterrupt) as error:
+    except (ValueError, RuntimeError, EOFError, KeyboardInterrupt) as error:
         print(str(error) or "Cancelled.")
         return 1
 
     cleanup_failed = False
     try:
         model = make_model(config, TOOLS)
-        jev_checker = None
-        if config.jev_api_key:
-            jev_checker = lambda text: check_with_jev(text, config.jev_api_key)
         agent_dir = Path(__file__).resolve().parents[2]
         template = agent_dir.parent / "broken-repos" / "broken-flaskr-blog"
         with open_memory(config.checkpoint_database_url, thread_id) as memory:
@@ -56,7 +58,9 @@ def main(argv=None):
                 print(f"Workspace: {getattr(workspace, 'volume', workspace)}")
                 if volume is None:
                     save_workspace(memory, thread_id, str(getattr(workspace, "volume", workspace)))
-                graph = build_graph(model, jev_checker, workspace, checkpointer=memory)
+                safety = (lambda text: check_input_safety(text, config.jev_api_key)) if config.jev_api_key else None
+                graph = build_graph(model, workspace=workspace, checkpointer=memory,
+                                    input_checker=lambda text: check_input(text, safety))
                 graph_config = {"configurable": {"thread_id": thread_id}}
                 prepare_checkpoint(graph, graph_config, workspace)
                 result = run_graph(graph, prompt, config, thread_id=thread_id)
@@ -82,10 +86,11 @@ def main(argv=None):
     
     if result:
         print(f"{result}\n\n")
-    if result.get("jev_score") is not None:
-        print(f"Jev coding-request score: {result['jev_score']:.2f} / 1 (advisory)")
-    elif result.get("jev_status"):
-        print(f"Jev check: {result['jev_status']}; continuing without a score.")
+    guardrail = result.get("input_guardrail", {})
+    if guardrail.get("risk_score") is not None:
+        print(f"Input safety risk score: {guardrail['risk_score']:.2f} / 1")
+    elif guardrail.get("jev_status"):
+        print(f"Input safety check: {guardrail['jev_status']}.")
     for call in result.get("tool_calls", []):
         print(f"Tool: {call['name']} ({call['status']})")
         print(f"Arguments: {json.dumps(call['args'], ensure_ascii=False)}")

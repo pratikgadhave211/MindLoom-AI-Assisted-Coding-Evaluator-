@@ -2,7 +2,7 @@ def test_placeholder_tools_have_expected_names_and_do_not_run():
     from coding_agent.tools import TOOLS
 
     tools = {tool.name: tool for tool in TOOLS}
-    assert set(tools) == {"list_files", "search_files", "read_file", "edit_file", "run_command", "run_tests"}
+    assert set(tools) == {"list_files", "search_files", "read_file", "edit_file", "run_command", "run_tests", "set_env_secret"}
     assert tools["read_file"].invoke({"path": "secret.txt"}) == "Not implemented; no action was taken."
     assert tools["run_command"].invoke({"command": "a command"}) == "Not implemented; no action was taken."
 

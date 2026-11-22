@@ -1,0 +1,5075 @@
+{
+  "dataset": "73 fictional hand-labeled in-domain examples",
+  "model": "urchade/gliner_multi_pii-v1",
+  "gliner_chunk_size": 120,
+  "gliner_overlap": 64,
+  "threshold": 0.5,
+  "nlp": "en_core_web_sm",
+  "versions": {
+    "gliner": "0.2.30",
+    "presidio-analyzer": "2.2.366",
+    "presidio-anonymizer": "2.2.366",
+    "spacy": "3.8.18",
+    "en_core_web_sm": "3.8.0"
+  },
+  "round_trip": {
+    "encrypted_value_hidden": true,
+    "decrypt_restores_original": true,
+    "placeholder_values_hidden": true,
+    "placeholders_distinct": true,
+    "placeholder_mapping_restores_original": true
+  },
+  "methods": [
+    {
+      "name": "current_rules_and_gliner",
+      "covered": 61,
+      "missed": 8,
+      "false_alarms": 23,
+      "overmasked_chars": 141,
+      "correct_label_full_span": 60,
+      "categories": {
+        "person": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "email": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "phone": {
+          "covered": 7,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "address": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 2
+        },
+        "mixed": {
+          "covered": 8,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "multilingual": {
+          "covered": 7,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "code-negative": {
+          "covered": 0,
+          "missed": 0,
+          "false_alarms": 13
+        },
+        "code-positive": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "secret": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "unsupported": {
+          "covered": 0,
+          "missed": 5,
+          "false_alarms": 0
+        },
+        "boundary": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 2
+        },
+        "boundary-name": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 2
+        },
+        "boundary-phone": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 4
+        },
+        "boundary-long": {
+          "covered": 1,
+          "missed": 3,
+          "false_alarms": 0
+        }
+      },
+      "details": [
+        {
+          "case": 1,
+          "category": "person",
+          "expected": [
+            {
+              "start": 4,
+              "end": 16,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 4,
+              "end": 16,
+              "label": "person",
+              "score": 0.9990450739860535
+            }
+          ]
+        },
+        {
+          "case": 2,
+          "category": "person",
+          "expected": [
+            {
+              "start": 5,
+              "end": 9,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 5,
+              "end": 9,
+              "label": "person",
+              "score": 0.994911253452301
+            }
+          ]
+        },
+        {
+          "case": 3,
+          "category": "person",
+          "expected": [
+            {
+              "start": 0,
+              "end": 12,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 0,
+              "end": 12,
+              "label": "person",
+              "score": 0.9989016056060791
+            }
+          ]
+        },
+        {
+          "case": 4,
+          "category": "person",
+          "expected": [
+            {
+              "start": 25,
+              "end": 35,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 25,
+              "end": 35,
+              "label": "person",
+              "score": 0.9997909665107727
+            }
+          ]
+        },
+        {
+          "case": 5,
+          "category": "person",
+          "expected": [
+            {
+              "start": 4,
+              "end": 8,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 0,
+              "end": 8,
+              "label": "person",
+              "score": 0.9976497292518616
+            }
+          ]
+        },
+        {
+          "case": 6,
+          "category": "person",
+          "expected": [
+            {
+              "start": 8,
+              "end": 23,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 8,
+              "end": 23,
+              "label": "person",
+              "score": 0.9980620741844177
+            }
+          ]
+        },
+        {
+          "case": 7,
+          "category": "email",
+          "expected": [
+            {
+              "start": 17,
+              "end": 41,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 17,
+              "end": 41,
+              "label": "person",
+              "score": 0.8427568674087524
+            },
+            {
+              "start": 17,
+              "end": 41,
+              "label": "EMAIL"
+            }
+          ]
+        },
+        {
+          "case": 8,
+          "category": "email",
+          "expected": [
+            {
+              "start": 16,
+              "end": 37,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 16,
+              "end": 37,
+              "label": "person",
+              "score": 0.687147319316864
+            },
+            {
+              "start": 16,
+              "end": 37,
+              "label": "EMAIL"
+            }
+          ]
+        },
+        {
+          "case": 9,
+          "category": "email",
+          "expected": [
+            {
+              "start": 14,
+              "end": 32,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 14,
+              "end": 32,
+              "label": "person",
+              "score": 0.559963583946228
+            },
+            {
+              "start": 14,
+              "end": 32,
+              "label": "EMAIL"
+            }
+          ]
+        },
+        {
+          "case": 10,
+          "category": "email",
+          "expected": [
+            {
+              "start": 5,
+              "end": 29,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 0,
+              "end": 29,
+              "label": "email address",
+              "score": 0.5437432527542114
+            },
+            {
+              "start": 5,
+              "end": 29,
+              "label": "EMAIL"
+            }
+          ]
+        },
+        {
+          "case": 11,
+          "category": "email",
+          "expected": [
+            {
+              "start": 7,
+              "end": 30,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 7,
+              "end": 30,
+              "label": "email address",
+              "score": 0.9007791876792908
+            },
+            {
+              "start": 7,
+              "end": 30,
+              "label": "EMAIL"
+            }
+          ]
+        },
+        {
+          "case": 12,
+          "category": "email",
+          "expected": [
+            {
+              "start": 13,
+              "end": 32,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 13,
+              "end": 32,
+              "label": "email address",
+              "score": 0.9886205792427063
+            },
+            {
+              "start": 13,
+              "end": 32,
+              "label": "EMAIL"
+            }
+          ]
+        },
+        {
+          "case": 13,
+          "category": "phone",
+          "expected": [
+            {
+              "start": 11,
+              "end": 26,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 11,
+              "end": 26,
+              "label": "phone number",
+              "score": 0.9960047602653503
+            }
+          ]
+        },
+        {
+          "case": 14,
+          "category": "phone",
+          "expected": [
+            {
+              "start": 13,
+              "end": 27,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 13,
+              "end": 27,
+              "label": "phone number",
+              "score": 0.9961411356925964
+            }
+          ]
+        },
+        {
+          "case": 15,
+          "category": "phone",
+          "expected": [
+            {
+              "start": 6,
+              "end": 10,
+              "label": "person"
+            },
+            {
+              "start": 14,
+              "end": 29,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 6,
+              "end": 10,
+              "label": "person",
+              "score": 0.9974802136421204
+            },
+            {
+              "start": 14,
+              "end": 29,
+              "label": "phone number",
+              "score": 0.9977172613143921
+            }
+          ]
+        },
+        {
+          "case": 16,
+          "category": "phone",
+          "expected": [
+            {
+              "start": 16,
+              "end": 29,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 16,
+              "end": 29,
+              "label": "phone number",
+              "score": 0.9726690053939819
+            }
+          ]
+        },
+        {
+          "case": 17,
+          "category": "phone",
+          "expected": [
+            {
+              "start": 18,
+              "end": 35,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 18,
+              "end": 35,
+              "label": "phone number",
+              "score": 0.9989822506904602
+            }
+          ]
+        },
+        {
+          "case": 18,
+          "category": "phone",
+          "expected": [
+            {
+              "start": 9,
+              "end": 21,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 9,
+              "end": 21,
+              "label": "phone number",
+              "score": 0.9811480641365051
+            }
+          ]
+        },
+        {
+          "case": 19,
+          "category": "address",
+          "expected": [
+            {
+              "start": 18,
+              "end": 42,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 0,
+              "end": 8,
+              "label": "person",
+              "score": 0.8753924369812012
+            },
+            {
+              "start": 18,
+              "end": 42,
+              "label": "address",
+              "score": 0.9854355454444885
+            }
+          ]
+        },
+        {
+          "case": 20,
+          "category": "address",
+          "expected": [
+            {
+              "start": 19,
+              "end": 42,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 19,
+              "end": 42,
+              "label": "address",
+              "score": 0.9918529391288757
+            }
+          ]
+        },
+        {
+          "case": 21,
+          "category": "address",
+          "expected": [
+            {
+              "start": 17,
+              "end": 37,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 17,
+              "end": 37,
+              "label": "address",
+              "score": 0.991768479347229
+            }
+          ]
+        },
+        {
+          "case": 22,
+          "category": "address",
+          "expected": [
+            {
+              "start": 22,
+              "end": 46,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 0,
+              "end": 12,
+              "label": "person",
+              "score": 0.9715002179145813
+            },
+            {
+              "start": 22,
+              "end": 46,
+              "label": "address",
+              "score": 0.9885872006416321
+            }
+          ]
+        },
+        {
+          "case": 23,
+          "category": "address",
+          "expected": [
+            {
+              "start": 11,
+              "end": 31,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 11,
+              "end": 31,
+              "label": "address",
+              "score": 0.9804069399833679
+            }
+          ]
+        },
+        {
+          "case": 24,
+          "category": "address",
+          "expected": [
+            {
+              "start": 22,
+              "end": 46,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 22,
+              "end": 46,
+              "label": "address",
+              "score": 0.9850994944572449
+            }
+          ]
+        },
+        {
+          "case": 25,
+          "category": "mixed",
+          "expected": [
+            {
+              "start": 0,
+              "end": 10,
+              "label": "person"
+            },
+            {
+              "start": 16,
+              "end": 33,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 0,
+              "end": 10,
+              "label": "person",
+              "score": 0.9996408224105835
+            },
+            {
+              "start": 16,
+              "end": 33,
+              "label": "email address",
+              "score": 0.9838040471076965
+            },
+            {
+              "start": 16,
+              "end": 33,
+              "label": "EMAIL"
+            }
+          ]
+        },
+        {
+          "case": 26,
+          "category": "mixed",
+          "expected": [
+            {
+              "start": 5,
+              "end": 9,
+              "label": "person"
+            },
+            {
+              "start": 13,
+              "end": 28,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 5,
+              "end": 9,
+              "label": "person",
+              "score": 0.9970560073852539
+            },
+            {
+              "start": 13,
+              "end": 28,
+              "label": "phone number",
+              "score": 0.9973034858703613
+            }
+          ]
+        },
+        {
+          "case": 27,
+          "category": "mixed",
+          "expected": [
+            {
+              "start": 6,
+              "end": 16,
+              "label": "person"
+            },
+            {
+              "start": 20,
+              "end": 36,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 6,
+              "end": 16,
+              "label": "person",
+              "score": 0.9997624754905701
+            },
+            {
+              "start": 20,
+              "end": 36,
+              "label": "email address",
+              "score": 0.9891923069953918
+            },
+            {
+              "start": 20,
+              "end": 36,
+              "label": "EMAIL"
+            }
+          ]
+        },
+        {
+          "case": 28,
+          "category": "mixed",
+          "expected": [
+            {
+              "start": 0,
+              "end": 4,
+              "label": "person"
+            },
+            {
+              "start": 14,
+              "end": 35,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 0,
+              "end": 4,
+              "label": "person",
+              "score": 0.998145341873169
+            },
+            {
+              "start": 14,
+              "end": 35,
+              "label": "address",
+              "score": 0.982948362827301
+            }
+          ]
+        },
+        {
+          "case": 29,
+          "category": "multilingual",
+          "expected": [
+            {
+              "start": 0,
+              "end": 11,
+              "label": "person"
+            },
+            {
+              "start": 20,
+              "end": 41,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 0,
+              "end": 11,
+              "label": "person",
+              "score": 0.9992175102233887
+            },
+            {
+              "start": 20,
+              "end": 41,
+              "label": "address",
+              "score": 0.9852060675621033
+            }
+          ]
+        },
+        {
+          "case": 30,
+          "category": "multilingual",
+          "expected": [
+            {
+              "start": 10,
+              "end": 22,
+              "label": "person"
+            },
+            {
+              "start": 25,
+              "end": 41,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 10,
+              "end": 22,
+              "label": "person",
+              "score": 0.9997132420539856
+            },
+            {
+              "start": 25,
+              "end": 41,
+              "label": "email address",
+              "score": 0.9981525540351868
+            },
+            {
+              "start": 25,
+              "end": 41,
+              "label": "EMAIL"
+            }
+          ]
+        },
+        {
+          "case": 31,
+          "category": "multilingual",
+          "expected": [
+            {
+              "start": 10,
+              "end": 20,
+              "label": "person"
+            },
+            {
+              "start": 27,
+              "end": 42,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 10,
+              "end": 20,
+              "label": "person",
+              "score": 0.9999188184738159
+            },
+            {
+              "start": 27,
+              "end": 42,
+              "label": "phone number",
+              "score": 0.9981259703636169
+            }
+          ]
+        },
+        {
+          "case": 32,
+          "category": "multilingual",
+          "expected": [
+            {
+              "start": 0,
+              "end": 5,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 0,
+              "end": 5,
+              "label": "person",
+              "score": 0.9862390160560608
+            }
+          ]
+        },
+        {
+          "case": 33,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": [
+            {
+              "start": 15,
+              "end": 19,
+              "label": "person",
+              "score": 0.9973209500312805
+            },
+            {
+              "start": 26,
+              "end": 35,
+              "label": "person",
+              "score": 0.8961992859840393
+            },
+            {
+              "start": 38,
+              "end": 42,
+              "label": "person",
+              "score": 0.9967482089996338
+            },
+            {
+              "start": 65,
+              "end": 74,
+              "label": "person",
+              "score": 0.9690329432487488
+            }
+          ]
+        },
+        {
+          "case": 34,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": [
+            {
+              "start": 0,
+              "end": 4,
+              "label": "person",
+              "score": 0.9930175542831421
+            },
+            {
+              "start": 32,
+              "end": 36,
+              "label": "person",
+              "score": 0.9873456358909607
+            }
+          ]
+        },
+        {
+          "case": 35,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": []
+        },
+        {
+          "case": 36,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": [
+            {
+              "start": 0,
+              "end": 7,
+              "label": "address",
+              "score": 0.6279826760292053
+            }
+          ]
+        },
+        {
+          "case": 37,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": [
+            {
+              "start": 0,
+              "end": 5,
+              "label": "email address",
+              "score": 0.7645056843757629
+            },
+            {
+              "start": 39,
+              "end": 44,
+              "label": "email address",
+              "score": 0.532430112361908
+            }
+          ]
+        },
+        {
+          "case": 38,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": [
+            {
+              "start": 12,
+              "end": 22,
+              "label": "person",
+              "score": 0.7121852040290833
+            }
+          ]
+        },
+        {
+          "case": 39,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": [
+            {
+              "start": 11,
+              "end": 16,
+              "label": "person",
+              "score": 0.5085507035255432
+            }
+          ]
+        },
+        {
+          "case": 40,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": []
+        },
+        {
+          "case": 41,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": []
+        },
+        {
+          "case": 42,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": [
+            {
+              "start": 7,
+              "end": 11,
+              "label": "person",
+              "score": 0.951895534992218
+            }
+          ]
+        },
+        {
+          "case": 43,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": []
+        },
+        {
+          "case": 44,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": [
+            {
+              "start": 19,
+              "end": 25,
+              "label": "person",
+              "score": 0.9835072755813599
+            }
+          ]
+        },
+        {
+          "case": 45,
+          "category": "code-positive",
+          "expected": [
+            {
+              "start": 15,
+              "end": 31,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 15,
+              "end": 31,
+              "label": "email address",
+              "score": 0.9606550335884094
+            },
+            {
+              "start": 15,
+              "end": 31,
+              "label": "EMAIL"
+            }
+          ]
+        },
+        {
+          "case": 46,
+          "category": "code-positive",
+          "expected": [
+            {
+              "start": 10,
+              "end": 20,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 10,
+              "end": 20,
+              "label": "person",
+              "score": 0.9968963861465454
+            }
+          ]
+        },
+        {
+          "case": 47,
+          "category": "code-positive",
+          "expected": [
+            {
+              "start": 18,
+              "end": 33,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 18,
+              "end": 33,
+              "label": "phone number",
+              "score": 0.9307045936584473
+            }
+          ]
+        },
+        {
+          "case": 48,
+          "category": "code-positive",
+          "expected": [
+            {
+              "start": 11,
+              "end": 34,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 11,
+              "end": 34,
+              "label": "address",
+              "score": 0.981386125087738
+            }
+          ]
+        },
+        {
+          "case": 49,
+          "category": "secret",
+          "expected": [
+            {
+              "start": 14,
+              "end": 50,
+              "label": "secret"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 14,
+              "end": 50,
+              "label": "SECRET"
+            }
+          ]
+        },
+        {
+          "case": 50,
+          "category": "secret",
+          "expected": [
+            {
+              "start": 6,
+              "end": 44,
+              "label": "secret"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 6,
+              "end": 44,
+              "label": "SECRET"
+            }
+          ]
+        },
+        {
+          "case": 51,
+          "category": "secret",
+          "expected": [
+            {
+              "start": 19,
+              "end": 60,
+              "label": "secret"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 19,
+              "end": 60,
+              "label": "SECRET"
+            }
+          ]
+        },
+        {
+          "case": 52,
+          "category": "secret",
+          "expected": [
+            {
+              "start": 6,
+              "end": 45,
+              "label": "secret"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 6,
+              "end": 45,
+              "label": "SECRET"
+            }
+          ]
+        },
+        {
+          "case": 53,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 20,
+              "end": 33,
+              "label": "date of birth"
+            }
+          ],
+          "predictions": []
+        },
+        {
+          "case": 54,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 23,
+              "end": 31,
+              "label": "passport number"
+            }
+          ],
+          "predictions": []
+        },
+        {
+          "case": 55,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 23,
+              "end": 36,
+              "label": "ip address"
+            }
+          ],
+          "predictions": []
+        },
+        {
+          "case": 56,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 21,
+              "end": 33,
+              "label": "bank account"
+            }
+          ],
+          "predictions": []
+        },
+        {
+          "case": 57,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 16,
+              "end": 33,
+              "label": "password"
+            }
+          ],
+          "predictions": []
+        },
+        {
+          "case": 58,
+          "category": "boundary",
+          "expected": [
+            {
+              "start": 113,
+              "end": 134,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 113,
+              "end": 120,
+              "label": "person",
+              "score": 0.859804630279541
+            },
+            {
+              "start": 113,
+              "end": 134,
+              "label": "email address",
+              "score": 0.8719807267189026
+            },
+            {
+              "start": 113,
+              "end": 134,
+              "label": "EMAIL"
+            }
+          ]
+        },
+        {
+          "case": 59,
+          "category": "boundary-name",
+          "expected": [
+            {
+              "start": 115,
+              "end": 127,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 115,
+              "end": 127,
+              "label": "person",
+              "score": 0.9996936321258545
+            }
+          ]
+        },
+        {
+          "case": 60,
+          "category": "boundary-phone",
+          "expected": [
+            {
+              "start": 115,
+              "end": 130,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 115,
+              "end": 120,
+              "label": "phone number",
+              "score": 0.967807412147522
+            },
+            {
+              "start": 56,
+              "end": 57,
+              "label": "person",
+              "score": 0.5023581981658936
+            },
+            {
+              "start": 115,
+              "end": 130,
+              "label": "phone number",
+              "score": 0.9954351782798767
+            }
+          ]
+        },
+        {
+          "case": 61,
+          "category": "boundary",
+          "expected": [
+            {
+              "start": 193,
+              "end": 214,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 193,
+              "end": 214,
+              "label": "email address",
+              "score": 0.8513292074203491
+            },
+            {
+              "start": 193,
+              "end": 214,
+              "label": "email address",
+              "score": 0.8005710244178772
+            },
+            {
+              "start": 193,
+              "end": 214,
+              "label": "EMAIL"
+            }
+          ]
+        },
+        {
+          "case": 62,
+          "category": "boundary-name",
+          "expected": [
+            {
+              "start": 195,
+              "end": 207,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 195,
+              "end": 207,
+              "label": "person",
+              "score": 0.999496340751648
+            }
+          ]
+        },
+        {
+          "case": 63,
+          "category": "boundary-phone",
+          "expected": [
+            {
+              "start": 195,
+              "end": 210,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 112,
+              "end": 116,
+              "label": "person",
+              "score": 0.7956137657165527
+            },
+            {
+              "start": 195,
+              "end": 210,
+              "label": "phone number",
+              "score": 0.9985063672065735
+            },
+            {
+              "start": 195,
+              "end": 210,
+              "label": "phone number",
+              "score": 0.9965267777442932
+            }
+          ]
+        },
+        {
+          "case": 64,
+          "category": "boundary",
+          "expected": [
+            {
+              "start": 233,
+              "end": 254,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 112,
+              "end": 116,
+              "label": "person",
+              "score": 0.6362993717193604
+            },
+            {
+              "start": 226,
+              "end": 254,
+              "label": "email address",
+              "score": 0.5144456624984741
+            },
+            {
+              "start": 233,
+              "end": 254,
+              "label": "EMAIL"
+            }
+          ]
+        },
+        {
+          "case": 65,
+          "category": "boundary-name",
+          "expected": [
+            {
+              "start": 235,
+              "end": 247,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 112,
+              "end": 116,
+              "label": "person",
+              "score": 0.6362993717193604
+            },
+            {
+              "start": 235,
+              "end": 247,
+              "label": "person",
+              "score": 0.9998244643211365
+            }
+          ]
+        },
+        {
+          "case": 66,
+          "category": "boundary-phone",
+          "expected": [
+            {
+              "start": 235,
+              "end": 250,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 112,
+              "end": 116,
+              "label": "person",
+              "score": 0.6362993717193604
+            },
+            {
+              "start": 235,
+              "end": 250,
+              "label": "phone number",
+              "score": 0.9967807531356812
+            }
+          ]
+        },
+        {
+          "case": 67,
+          "category": "boundary",
+          "expected": [
+            {
+              "start": 313,
+              "end": 334,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 112,
+              "end": 116,
+              "label": "person",
+              "score": 0.6362993717193604
+            },
+            {
+              "start": 313,
+              "end": 334,
+              "label": "email address",
+              "score": 0.870861828327179
+            },
+            {
+              "start": 313,
+              "end": 334,
+              "label": "email address",
+              "score": 0.8564381003379822
+            },
+            {
+              "start": 313,
+              "end": 334,
+              "label": "EMAIL"
+            }
+          ]
+        },
+        {
+          "case": 68,
+          "category": "boundary-name",
+          "expected": [
+            {
+              "start": 315,
+              "end": 327,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 112,
+              "end": 116,
+              "label": "person",
+              "score": 0.6362993717193604
+            },
+            {
+              "start": 315,
+              "end": 327,
+              "label": "person",
+              "score": 0.9998412132263184
+            },
+            {
+              "start": 315,
+              "end": 327,
+              "label": "person",
+              "score": 0.9995436072349548
+            }
+          ]
+        },
+        {
+          "case": 69,
+          "category": "boundary-phone",
+          "expected": [
+            {
+              "start": 315,
+              "end": 330,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 112,
+              "end": 116,
+              "label": "person",
+              "score": 0.6362993717193604
+            },
+            {
+              "start": 315,
+              "end": 330,
+              "label": "phone number",
+              "score": 0.9981671571731567
+            },
+            {
+              "start": 315,
+              "end": 330,
+              "label": "phone number",
+              "score": 0.9963156580924988
+            }
+          ]
+        },
+        {
+          "case": 70,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 54,
+              "end": 135,
+              "label": "address"
+            }
+          ],
+          "predictions": []
+        },
+        {
+          "case": 71,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 134,
+              "end": 215,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 134,
+              "end": 176,
+              "label": "address",
+              "score": 0.762377917766571
+            },
+            {
+              "start": 168,
+              "end": 215,
+              "label": "address",
+              "score": 0.5140576362609863
+            }
+          ]
+        },
+        {
+          "case": 72,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 174,
+              "end": 255,
+              "label": "address"
+            }
+          ],
+          "predictions": []
+        },
+        {
+          "case": 73,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 254,
+              "end": 335,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 254,
+              "end": 288,
+              "label": "address",
+              "score": 0.8063170909881592
+            },
+            {
+              "start": 280,
+              "end": 290,
+              "label": "person",
+              "score": 0.7497365474700928
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "median_seconds": 0.2051,
+      "total_seconds": 25.448
+    },
+    {
+      "name": "presidio_spacy",
+      "covered": 37,
+      "missed": 32,
+      "false_alarms": 6,
+      "overmasked_chars": 108,
+      "correct_label_full_span": 36,
+      "categories": {
+        "person": {
+          "covered": 5,
+          "missed": 1,
+          "false_alarms": 1
+        },
+        "email": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 1
+        },
+        "phone": {
+          "covered": 4,
+          "missed": 3,
+          "false_alarms": 0
+        },
+        "address": {
+          "covered": 0,
+          "missed": 6,
+          "false_alarms": 0
+        },
+        "mixed": {
+          "covered": 6,
+          "missed": 2,
+          "false_alarms": 0
+        },
+        "multilingual": {
+          "covered": 3,
+          "missed": 4,
+          "false_alarms": 2
+        },
+        "code-negative": {
+          "covered": 0,
+          "missed": 0,
+          "false_alarms": 2
+        },
+        "code-positive": {
+          "covered": 3,
+          "missed": 1,
+          "false_alarms": 0
+        },
+        "secret": {
+          "covered": 0,
+          "missed": 4,
+          "false_alarms": 0
+        },
+        "unsupported": {
+          "covered": 3,
+          "missed": 2,
+          "false_alarms": 0
+        },
+        "boundary": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "boundary-name": {
+          "covered": 3,
+          "missed": 1,
+          "false_alarms": 0
+        },
+        "boundary-phone": {
+          "covered": 0,
+          "missed": 4,
+          "false_alarms": 0
+        },
+        "boundary-long": {
+          "covered": 0,
+          "missed": 4,
+          "false_alarms": 0
+        }
+      },
+      "details": [
+        {
+          "case": 1,
+          "category": "person",
+          "expected": [
+            {
+              "start": 4,
+              "end": 16,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 4,
+              "end": 16,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 2,
+          "category": "person",
+          "expected": [
+            {
+              "start": 5,
+              "end": 9,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 0,
+              "end": 9,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 3,
+          "category": "person",
+          "expected": [
+            {
+              "start": 0,
+              "end": 12,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 6,
+              "end": 12,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 4,
+          "category": "person",
+          "expected": [
+            {
+              "start": 25,
+              "end": 35,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 25,
+              "end": 35,
+              "label": "PERSON",
+              "score": 0.85
+            },
+            {
+              "start": 36,
+              "end": 45,
+              "label": "DATE_TIME",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 5,
+          "category": "person",
+          "expected": [
+            {
+              "start": 4,
+              "end": 8,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 4,
+              "end": 8,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 6,
+          "category": "person",
+          "expected": [
+            {
+              "start": 8,
+              "end": 23,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 8,
+              "end": 23,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 7,
+          "category": "email",
+          "expected": [
+            {
+              "start": 17,
+              "end": 41,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 17,
+              "end": 41,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "case": 8,
+          "category": "email",
+          "expected": [
+            {
+              "start": 16,
+              "end": 37,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 16,
+              "end": 37,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "case": 9,
+          "category": "email",
+          "expected": [
+            {
+              "start": 14,
+              "end": 32,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 14,
+              "end": 32,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "case": 10,
+          "category": "email",
+          "expected": [
+            {
+              "start": 5,
+              "end": 29,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 5,
+              "end": 29,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "case": 11,
+          "category": "email",
+          "expected": [
+            {
+              "start": 7,
+              "end": 30,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 7,
+              "end": 30,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            },
+            {
+              "start": 0,
+              "end": 5,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 12,
+          "category": "email",
+          "expected": [
+            {
+              "start": 13,
+              "end": 32,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 13,
+              "end": 32,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            },
+            {
+              "start": 13,
+              "end": 32,
+              "label": "DATE_TIME",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 13,
+          "category": "phone",
+          "expected": [
+            {
+              "start": 11,
+              "end": 26,
+              "label": "phone number"
+            }
+          ],
+          "predictions": []
+        },
+        {
+          "case": 14,
+          "category": "phone",
+          "expected": [
+            {
+              "start": 13,
+              "end": 27,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 13,
+              "end": 27,
+              "label": "PHONE_NUMBER",
+              "score": 0.75
+            }
+          ]
+        },
+        {
+          "case": 15,
+          "category": "phone",
+          "expected": [
+            {
+              "start": 6,
+              "end": 10,
+              "label": "person"
+            },
+            {
+              "start": 14,
+              "end": 29,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 0,
+              "end": 10,
+              "label": "PERSON",
+              "score": 0.85
+            },
+            {
+              "start": 18,
+              "end": 29,
+              "label": "DATE_TIME",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 16,
+          "category": "phone",
+          "expected": [
+            {
+              "start": 16,
+              "end": 29,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 16,
+              "end": 29,
+              "label": "PHONE_NUMBER",
+              "score": 0.75
+            }
+          ]
+        },
+        {
+          "case": 17,
+          "category": "phone",
+          "expected": [
+            {
+              "start": 18,
+              "end": 35,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 22,
+              "end": 26,
+              "label": "DATE_TIME",
+              "score": 0.85
+            },
+            {
+              "start": 30,
+              "end": 35,
+              "label": "DATE_TIME",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 18,
+          "category": "phone",
+          "expected": [
+            {
+              "start": 9,
+              "end": 21,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 9,
+              "end": 21,
+              "label": "PHONE_NUMBER",
+              "score": 0.75
+            }
+          ]
+        },
+        {
+          "case": 19,
+          "category": "address",
+          "expected": [
+            {
+              "start": 18,
+              "end": 42,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 36,
+              "end": 42,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 20,
+          "category": "address",
+          "expected": [
+            {
+              "start": 19,
+              "end": 42,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 36,
+              "end": 42,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 21,
+          "category": "address",
+          "expected": [
+            {
+              "start": 17,
+              "end": 37,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 20,
+              "end": 28,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 22,
+          "category": "address",
+          "expected": [
+            {
+              "start": 22,
+              "end": 46,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 38,
+              "end": 46,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 23,
+          "category": "address",
+          "expected": [
+            {
+              "start": 11,
+              "end": 31,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 27,
+              "end": 31,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 24,
+          "category": "address",
+          "expected": [
+            {
+              "start": 22,
+              "end": 46,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 40,
+              "end": 46,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 25,
+          "category": "mixed",
+          "expected": [
+            {
+              "start": 0,
+              "end": 10,
+              "label": "person"
+            },
+            {
+              "start": 16,
+              "end": 33,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 16,
+              "end": 33,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            },
+            {
+              "start": 0,
+              "end": 10,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 26,
+          "category": "mixed",
+          "expected": [
+            {
+              "start": 5,
+              "end": 9,
+              "label": "person"
+            },
+            {
+              "start": 13,
+              "end": 28,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 0,
+              "end": 9,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 27,
+          "category": "mixed",
+          "expected": [
+            {
+              "start": 6,
+              "end": 16,
+              "label": "person"
+            },
+            {
+              "start": 20,
+              "end": 36,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 20,
+              "end": 36,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            },
+            {
+              "start": 0,
+              "end": 16,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 28,
+          "category": "mixed",
+          "expected": [
+            {
+              "start": 0,
+              "end": 4,
+              "label": "person"
+            },
+            {
+              "start": 14,
+              "end": 35,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 0,
+              "end": 4,
+              "label": "PERSON",
+              "score": 0.85
+            },
+            {
+              "start": 29,
+              "end": 35,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 29,
+          "category": "multilingual",
+          "expected": [
+            {
+              "start": 0,
+              "end": 11,
+              "label": "person"
+            },
+            {
+              "start": 20,
+              "end": 41,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 23,
+              "end": 33,
+              "label": "PERSON",
+              "score": 0.85
+            },
+            {
+              "start": 35,
+              "end": 41,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 30,
+          "category": "multilingual",
+          "expected": [
+            {
+              "start": 10,
+              "end": 22,
+              "label": "person"
+            },
+            {
+              "start": 25,
+              "end": 41,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 25,
+              "end": 41,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            },
+            {
+              "start": 10,
+              "end": 22,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 31,
+          "category": "multilingual",
+          "expected": [
+            {
+              "start": 10,
+              "end": 20,
+              "label": "person"
+            },
+            {
+              "start": 27,
+              "end": 42,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 0,
+              "end": 9,
+              "label": "PERSON",
+              "score": 0.85
+            },
+            {
+              "start": 10,
+              "end": 20,
+              "label": "PERSON",
+              "score": 0.85
+            },
+            {
+              "start": 34,
+              "end": 42,
+              "label": "DATE_TIME",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 32,
+          "category": "multilingual",
+          "expected": [
+            {
+              "start": 0,
+              "end": 5,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 21,
+              "end": 40,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 33,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": []
+        },
+        {
+          "case": 34,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": [
+            {
+              "start": 7,
+              "end": 23,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 35,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": []
+        },
+        {
+          "case": 36,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": [
+            {
+              "start": 37,
+              "end": 64,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 37,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": []
+        },
+        {
+          "case": 38,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": []
+        },
+        {
+          "case": 39,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": []
+        },
+        {
+          "case": 40,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": []
+        },
+        {
+          "case": 41,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": []
+        },
+        {
+          "case": 42,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": []
+        },
+        {
+          "case": 43,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": []
+        },
+        {
+          "case": 44,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": []
+        },
+        {
+          "case": 45,
+          "category": "code-positive",
+          "expected": [
+            {
+              "start": 15,
+              "end": 31,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 15,
+              "end": 31,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "case": 46,
+          "category": "code-positive",
+          "expected": [
+            {
+              "start": 10,
+              "end": 20,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 10,
+              "end": 20,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 47,
+          "category": "code-positive",
+          "expected": [
+            {
+              "start": 18,
+              "end": 33,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 18,
+              "end": 33,
+              "label": "PHONE_NUMBER",
+              "score": 0.75
+            }
+          ]
+        },
+        {
+          "case": 48,
+          "category": "code-positive",
+          "expected": [
+            {
+              "start": 11,
+              "end": 34,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 10,
+              "end": 13,
+              "label": "DATE_TIME",
+              "score": 0.85
+            },
+            {
+              "start": 28,
+              "end": 34,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 49,
+          "category": "secret",
+          "expected": [
+            {
+              "start": 14,
+              "end": 50,
+              "label": "secret"
+            }
+          ],
+          "predictions": []
+        },
+        {
+          "case": 50,
+          "category": "secret",
+          "expected": [
+            {
+              "start": 6,
+              "end": 44,
+              "label": "secret"
+            }
+          ],
+          "predictions": []
+        },
+        {
+          "case": 51,
+          "category": "secret",
+          "expected": [
+            {
+              "start": 19,
+              "end": 60,
+              "label": "secret"
+            }
+          ],
+          "predictions": []
+        },
+        {
+          "case": 52,
+          "category": "secret",
+          "expected": [
+            {
+              "start": 6,
+              "end": 45,
+              "label": "secret"
+            }
+          ],
+          "predictions": []
+        },
+        {
+          "case": 53,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 20,
+              "end": 33,
+              "label": "date of birth"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 20,
+              "end": 33,
+              "label": "DATE_TIME",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 54,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 23,
+              "end": 31,
+              "label": "passport number"
+            }
+          ],
+          "predictions": []
+        },
+        {
+          "case": 55,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 23,
+              "end": 36,
+              "label": "ip address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 23,
+              "end": 36,
+              "label": "IP_ADDRESS",
+              "score": 0.95
+            }
+          ]
+        },
+        {
+          "case": 56,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 21,
+              "end": 33,
+              "label": "bank account"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 21,
+              "end": 33,
+              "label": "DATE_TIME",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 57,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 16,
+              "end": 33,
+              "label": "password"
+            }
+          ],
+          "predictions": []
+        },
+        {
+          "case": 58,
+          "category": "boundary",
+          "expected": [
+            {
+              "start": 113,
+              "end": 134,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 113,
+              "end": 134,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "case": 59,
+          "category": "boundary-name",
+          "expected": [
+            {
+              "start": 115,
+              "end": 127,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 115,
+              "end": 127,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 60,
+          "category": "boundary-phone",
+          "expected": [
+            {
+              "start": 115,
+              "end": 130,
+              "label": "phone number"
+            }
+          ],
+          "predictions": []
+        },
+        {
+          "case": 61,
+          "category": "boundary",
+          "expected": [
+            {
+              "start": 193,
+              "end": 214,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 193,
+              "end": 214,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "case": 62,
+          "category": "boundary-name",
+          "expected": [
+            {
+              "start": 195,
+              "end": 207,
+              "label": "person"
+            }
+          ],
+          "predictions": []
+        },
+        {
+          "case": 63,
+          "category": "boundary-phone",
+          "expected": [
+            {
+              "start": 195,
+              "end": 210,
+              "label": "phone number"
+            }
+          ],
+          "predictions": []
+        },
+        {
+          "case": 64,
+          "category": "boundary",
+          "expected": [
+            {
+              "start": 233,
+              "end": 254,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 233,
+              "end": 254,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "case": 65,
+          "category": "boundary-name",
+          "expected": [
+            {
+              "start": 235,
+              "end": 247,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 235,
+              "end": 247,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 66,
+          "category": "boundary-phone",
+          "expected": [
+            {
+              "start": 235,
+              "end": 250,
+              "label": "phone number"
+            }
+          ],
+          "predictions": []
+        },
+        {
+          "case": 67,
+          "category": "boundary",
+          "expected": [
+            {
+              "start": 313,
+              "end": 334,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 313,
+              "end": 334,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "case": 68,
+          "category": "boundary-name",
+          "expected": [
+            {
+              "start": 315,
+              "end": 327,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 315,
+              "end": 327,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 69,
+          "category": "boundary-phone",
+          "expected": [
+            {
+              "start": 315,
+              "end": 330,
+              "label": "phone number"
+            }
+          ],
+          "predictions": []
+        },
+        {
+          "case": 70,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 54,
+              "end": 135,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 73,
+              "end": 90,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 92,
+              "end": 101,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 103,
+              "end": 114,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 116,
+              "end": 135,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 71,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 134,
+              "end": 215,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 153,
+              "end": 170,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 172,
+              "end": 181,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 183,
+              "end": 194,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 196,
+              "end": 215,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 72,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 174,
+              "end": 255,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 193,
+              "end": 210,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 212,
+              "end": 221,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 223,
+              "end": 234,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 236,
+              "end": 255,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 73,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 254,
+              "end": 335,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 273,
+              "end": 290,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 292,
+              "end": 301,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 303,
+              "end": 314,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 316,
+              "end": 335,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "median_seconds": 0.0126,
+      "total_seconds": 1.25
+    },
+    {
+      "name": "presidio_spacy_gliner_custom_keys",
+      "covered": 64,
+      "missed": 5,
+      "false_alarms": 29,
+      "overmasked_chars": 249,
+      "correct_label_full_span": 62,
+      "categories": {
+        "person": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 1
+        },
+        "email": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 1
+        },
+        "phone": {
+          "covered": 7,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "address": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 2
+        },
+        "mixed": {
+          "covered": 8,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "multilingual": {
+          "covered": 7,
+          "missed": 0,
+          "false_alarms": 2
+        },
+        "code-negative": {
+          "covered": 0,
+          "missed": 0,
+          "false_alarms": 15
+        },
+        "code-positive": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "secret": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "unsupported": {
+          "covered": 3,
+          "missed": 2,
+          "false_alarms": 0
+        },
+        "boundary": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 2
+        },
+        "boundary-name": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 2
+        },
+        "boundary-phone": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 4
+        },
+        "boundary-long": {
+          "covered": 1,
+          "missed": 3,
+          "false_alarms": 0
+        }
+      },
+      "details": [
+        {
+          "case": 1,
+          "category": "person",
+          "expected": [
+            {
+              "start": 4,
+              "end": 16,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 4,
+              "end": 16,
+              "label": "GLINER_PERSON",
+              "score": 0.9990450739860535
+            },
+            {
+              "start": 4,
+              "end": 16,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 2,
+          "category": "person",
+          "expected": [
+            {
+              "start": 5,
+              "end": 9,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 5,
+              "end": 9,
+              "label": "GLINER_PERSON",
+              "score": 0.994911253452301
+            },
+            {
+              "start": 0,
+              "end": 9,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 3,
+          "category": "person",
+          "expected": [
+            {
+              "start": 0,
+              "end": 12,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 0,
+              "end": 12,
+              "label": "GLINER_PERSON",
+              "score": 0.9989016056060791
+            },
+            {
+              "start": 6,
+              "end": 12,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 4,
+          "category": "person",
+          "expected": [
+            {
+              "start": 25,
+              "end": 35,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 25,
+              "end": 35,
+              "label": "GLINER_PERSON",
+              "score": 0.9997909665107727
+            },
+            {
+              "start": 25,
+              "end": 35,
+              "label": "PERSON",
+              "score": 0.85
+            },
+            {
+              "start": 36,
+              "end": 45,
+              "label": "DATE_TIME",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 5,
+          "category": "person",
+          "expected": [
+            {
+              "start": 4,
+              "end": 8,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 0,
+              "end": 8,
+              "label": "GLINER_PERSON",
+              "score": 0.9976497292518616
+            },
+            {
+              "start": 4,
+              "end": 8,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 6,
+          "category": "person",
+          "expected": [
+            {
+              "start": 8,
+              "end": 23,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 8,
+              "end": 23,
+              "label": "GLINER_PERSON",
+              "score": 0.9980620741844177
+            },
+            {
+              "start": 8,
+              "end": 23,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 7,
+          "category": "email",
+          "expected": [
+            {
+              "start": 17,
+              "end": 41,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 17,
+              "end": 41,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            },
+            {
+              "start": 17,
+              "end": 41,
+              "label": "GLINER_PERSON",
+              "score": 0.8427568674087524
+            }
+          ]
+        },
+        {
+          "case": 8,
+          "category": "email",
+          "expected": [
+            {
+              "start": 16,
+              "end": 37,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 16,
+              "end": 37,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            },
+            {
+              "start": 16,
+              "end": 37,
+              "label": "GLINER_PERSON",
+              "score": 0.687147319316864
+            }
+          ]
+        },
+        {
+          "case": 9,
+          "category": "email",
+          "expected": [
+            {
+              "start": 14,
+              "end": 32,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 14,
+              "end": 32,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            },
+            {
+              "start": 14,
+              "end": 32,
+              "label": "GLINER_PERSON",
+              "score": 0.559963583946228
+            }
+          ]
+        },
+        {
+          "case": 10,
+          "category": "email",
+          "expected": [
+            {
+              "start": 5,
+              "end": 29,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 5,
+              "end": 29,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            },
+            {
+              "start": 0,
+              "end": 29,
+              "label": "GLINER_EMAIL",
+              "score": 0.5437432527542114
+            }
+          ]
+        },
+        {
+          "case": 11,
+          "category": "email",
+          "expected": [
+            {
+              "start": 7,
+              "end": 30,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 7,
+              "end": 30,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            },
+            {
+              "start": 7,
+              "end": 30,
+              "label": "GLINER_EMAIL",
+              "score": 0.9007791876792908
+            },
+            {
+              "start": 0,
+              "end": 5,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 12,
+          "category": "email",
+          "expected": [
+            {
+              "start": 13,
+              "end": 32,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 13,
+              "end": 32,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            },
+            {
+              "start": 13,
+              "end": 32,
+              "label": "GLINER_EMAIL",
+              "score": 0.9886205792427063
+            },
+            {
+              "start": 13,
+              "end": 32,
+              "label": "DATE_TIME",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 13,
+          "category": "phone",
+          "expected": [
+            {
+              "start": 11,
+              "end": 26,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 11,
+              "end": 26,
+              "label": "GLINER_PHONE",
+              "score": 0.9960047602653503
+            }
+          ]
+        },
+        {
+          "case": 14,
+          "category": "phone",
+          "expected": [
+            {
+              "start": 13,
+              "end": 27,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 13,
+              "end": 27,
+              "label": "GLINER_PHONE",
+              "score": 0.9961411356925964
+            },
+            {
+              "start": 13,
+              "end": 27,
+              "label": "PHONE_NUMBER",
+              "score": 0.75
+            }
+          ]
+        },
+        {
+          "case": 15,
+          "category": "phone",
+          "expected": [
+            {
+              "start": 6,
+              "end": 10,
+              "label": "person"
+            },
+            {
+              "start": 14,
+              "end": 29,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 14,
+              "end": 29,
+              "label": "GLINER_PHONE",
+              "score": 0.9977172613143921
+            },
+            {
+              "start": 6,
+              "end": 10,
+              "label": "GLINER_PERSON",
+              "score": 0.9974802136421204
+            },
+            {
+              "start": 0,
+              "end": 10,
+              "label": "PERSON",
+              "score": 0.85
+            },
+            {
+              "start": 18,
+              "end": 29,
+              "label": "DATE_TIME",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 16,
+          "category": "phone",
+          "expected": [
+            {
+              "start": 16,
+              "end": 29,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 16,
+              "end": 29,
+              "label": "GLINER_PHONE",
+              "score": 0.9726690053939819
+            },
+            {
+              "start": 16,
+              "end": 29,
+              "label": "PHONE_NUMBER",
+              "score": 0.75
+            }
+          ]
+        },
+        {
+          "case": 17,
+          "category": "phone",
+          "expected": [
+            {
+              "start": 18,
+              "end": 35,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 18,
+              "end": 35,
+              "label": "GLINER_PHONE",
+              "score": 0.9989822506904602
+            },
+            {
+              "start": 22,
+              "end": 26,
+              "label": "DATE_TIME",
+              "score": 0.85
+            },
+            {
+              "start": 30,
+              "end": 35,
+              "label": "DATE_TIME",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 18,
+          "category": "phone",
+          "expected": [
+            {
+              "start": 9,
+              "end": 21,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 9,
+              "end": 21,
+              "label": "GLINER_PHONE",
+              "score": 0.9811480641365051
+            },
+            {
+              "start": 9,
+              "end": 21,
+              "label": "PHONE_NUMBER",
+              "score": 0.75
+            }
+          ]
+        },
+        {
+          "case": 19,
+          "category": "address",
+          "expected": [
+            {
+              "start": 18,
+              "end": 42,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 18,
+              "end": 42,
+              "label": "GLINER_ADDRESS",
+              "score": 0.9854355454444885
+            },
+            {
+              "start": 0,
+              "end": 8,
+              "label": "GLINER_PERSON",
+              "score": 0.8753924369812012
+            },
+            {
+              "start": 36,
+              "end": 42,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 20,
+          "category": "address",
+          "expected": [
+            {
+              "start": 19,
+              "end": 42,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 19,
+              "end": 42,
+              "label": "GLINER_ADDRESS",
+              "score": 0.9918529391288757
+            },
+            {
+              "start": 36,
+              "end": 42,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 21,
+          "category": "address",
+          "expected": [
+            {
+              "start": 17,
+              "end": 37,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 17,
+              "end": 37,
+              "label": "GLINER_ADDRESS",
+              "score": 0.991768479347229
+            },
+            {
+              "start": 20,
+              "end": 28,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 22,
+          "category": "address",
+          "expected": [
+            {
+              "start": 22,
+              "end": 46,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 22,
+              "end": 46,
+              "label": "GLINER_ADDRESS",
+              "score": 0.9885872006416321
+            },
+            {
+              "start": 0,
+              "end": 12,
+              "label": "GLINER_PERSON",
+              "score": 0.9715002179145813
+            },
+            {
+              "start": 38,
+              "end": 46,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 23,
+          "category": "address",
+          "expected": [
+            {
+              "start": 11,
+              "end": 31,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 11,
+              "end": 31,
+              "label": "GLINER_ADDRESS",
+              "score": 0.9804069399833679
+            },
+            {
+              "start": 27,
+              "end": 31,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 24,
+          "category": "address",
+          "expected": [
+            {
+              "start": 22,
+              "end": 46,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 22,
+              "end": 46,
+              "label": "GLINER_ADDRESS",
+              "score": 0.9850994944572449
+            },
+            {
+              "start": 40,
+              "end": 46,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 25,
+          "category": "mixed",
+          "expected": [
+            {
+              "start": 0,
+              "end": 10,
+              "label": "person"
+            },
+            {
+              "start": 16,
+              "end": 33,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 16,
+              "end": 33,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            },
+            {
+              "start": 0,
+              "end": 10,
+              "label": "GLINER_PERSON",
+              "score": 0.9996408224105835
+            },
+            {
+              "start": 16,
+              "end": 33,
+              "label": "GLINER_EMAIL",
+              "score": 0.9838040471076965
+            },
+            {
+              "start": 0,
+              "end": 10,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 26,
+          "category": "mixed",
+          "expected": [
+            {
+              "start": 5,
+              "end": 9,
+              "label": "person"
+            },
+            {
+              "start": 13,
+              "end": 28,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 13,
+              "end": 28,
+              "label": "GLINER_PHONE",
+              "score": 0.9973034858703613
+            },
+            {
+              "start": 5,
+              "end": 9,
+              "label": "GLINER_PERSON",
+              "score": 0.9970560073852539
+            },
+            {
+              "start": 0,
+              "end": 9,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 27,
+          "category": "mixed",
+          "expected": [
+            {
+              "start": 6,
+              "end": 16,
+              "label": "person"
+            },
+            {
+              "start": 20,
+              "end": 36,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 20,
+              "end": 36,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            },
+            {
+              "start": 6,
+              "end": 16,
+              "label": "GLINER_PERSON",
+              "score": 0.9997624754905701
+            },
+            {
+              "start": 20,
+              "end": 36,
+              "label": "GLINER_EMAIL",
+              "score": 0.9891923069953918
+            },
+            {
+              "start": 0,
+              "end": 16,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 28,
+          "category": "mixed",
+          "expected": [
+            {
+              "start": 0,
+              "end": 4,
+              "label": "person"
+            },
+            {
+              "start": 14,
+              "end": 35,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 0,
+              "end": 4,
+              "label": "GLINER_PERSON",
+              "score": 0.998145341873169
+            },
+            {
+              "start": 14,
+              "end": 35,
+              "label": "GLINER_ADDRESS",
+              "score": 0.982948362827301
+            },
+            {
+              "start": 0,
+              "end": 4,
+              "label": "PERSON",
+              "score": 0.85
+            },
+            {
+              "start": 29,
+              "end": 35,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 29,
+          "category": "multilingual",
+          "expected": [
+            {
+              "start": 0,
+              "end": 11,
+              "label": "person"
+            },
+            {
+              "start": 20,
+              "end": 41,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 0,
+              "end": 11,
+              "label": "GLINER_PERSON",
+              "score": 0.9992175102233887
+            },
+            {
+              "start": 20,
+              "end": 41,
+              "label": "GLINER_ADDRESS",
+              "score": 0.9852060675621033
+            },
+            {
+              "start": 23,
+              "end": 33,
+              "label": "PERSON",
+              "score": 0.85
+            },
+            {
+              "start": 35,
+              "end": 41,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 30,
+          "category": "multilingual",
+          "expected": [
+            {
+              "start": 10,
+              "end": 22,
+              "label": "person"
+            },
+            {
+              "start": 25,
+              "end": 41,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 25,
+              "end": 41,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            },
+            {
+              "start": 10,
+              "end": 22,
+              "label": "GLINER_PERSON",
+              "score": 0.9997132420539856
+            },
+            {
+              "start": 25,
+              "end": 41,
+              "label": "GLINER_EMAIL",
+              "score": 0.9981525540351868
+            },
+            {
+              "start": 10,
+              "end": 22,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 31,
+          "category": "multilingual",
+          "expected": [
+            {
+              "start": 10,
+              "end": 20,
+              "label": "person"
+            },
+            {
+              "start": 27,
+              "end": 42,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 10,
+              "end": 20,
+              "label": "GLINER_PERSON",
+              "score": 0.9999188184738159
+            },
+            {
+              "start": 27,
+              "end": 42,
+              "label": "GLINER_PHONE",
+              "score": 0.9981259703636169
+            },
+            {
+              "start": 0,
+              "end": 9,
+              "label": "PERSON",
+              "score": 0.85
+            },
+            {
+              "start": 10,
+              "end": 20,
+              "label": "PERSON",
+              "score": 0.85
+            },
+            {
+              "start": 34,
+              "end": 42,
+              "label": "DATE_TIME",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 32,
+          "category": "multilingual",
+          "expected": [
+            {
+              "start": 0,
+              "end": 5,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 0,
+              "end": 5,
+              "label": "GLINER_PERSON",
+              "score": 0.9862390160560608
+            },
+            {
+              "start": 21,
+              "end": 40,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 33,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": [
+            {
+              "start": 15,
+              "end": 19,
+              "label": "GLINER_PERSON",
+              "score": 0.9973209500312805
+            },
+            {
+              "start": 38,
+              "end": 42,
+              "label": "GLINER_PERSON",
+              "score": 0.9967482089996338
+            },
+            {
+              "start": 65,
+              "end": 74,
+              "label": "GLINER_PERSON",
+              "score": 0.9690329432487488
+            },
+            {
+              "start": 26,
+              "end": 35,
+              "label": "GLINER_PERSON",
+              "score": 0.8961992859840393
+            }
+          ]
+        },
+        {
+          "case": 34,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": [
+            {
+              "start": 0,
+              "end": 4,
+              "label": "GLINER_PERSON",
+              "score": 0.9930175542831421
+            },
+            {
+              "start": 32,
+              "end": 36,
+              "label": "GLINER_PERSON",
+              "score": 0.9873456358909607
+            },
+            {
+              "start": 7,
+              "end": 23,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 35,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": []
+        },
+        {
+          "case": 36,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": [
+            {
+              "start": 37,
+              "end": 64,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 0,
+              "end": 7,
+              "label": "GLINER_ADDRESS",
+              "score": 0.6279826760292053
+            }
+          ]
+        },
+        {
+          "case": 37,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": [
+            {
+              "start": 0,
+              "end": 5,
+              "label": "GLINER_EMAIL",
+              "score": 0.7645056843757629
+            },
+            {
+              "start": 39,
+              "end": 44,
+              "label": "GLINER_EMAIL",
+              "score": 0.532430112361908
+            }
+          ]
+        },
+        {
+          "case": 38,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": [
+            {
+              "start": 12,
+              "end": 22,
+              "label": "GLINER_PERSON",
+              "score": 0.7121852040290833
+            }
+          ]
+        },
+        {
+          "case": 39,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": [
+            {
+              "start": 11,
+              "end": 16,
+              "label": "GLINER_PERSON",
+              "score": 0.5085507035255432
+            }
+          ]
+        },
+        {
+          "case": 40,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": []
+        },
+        {
+          "case": 41,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": []
+        },
+        {
+          "case": 42,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": [
+            {
+              "start": 7,
+              "end": 11,
+              "label": "GLINER_PERSON",
+              "score": 0.951895534992218
+            }
+          ]
+        },
+        {
+          "case": 43,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": []
+        },
+        {
+          "case": 44,
+          "category": "code-negative",
+          "expected": [],
+          "predictions": [
+            {
+              "start": 19,
+              "end": 25,
+              "label": "GLINER_PERSON",
+              "score": 0.9835072755813599
+            }
+          ]
+        },
+        {
+          "case": 45,
+          "category": "code-positive",
+          "expected": [
+            {
+              "start": 15,
+              "end": 31,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 15,
+              "end": 31,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            },
+            {
+              "start": 15,
+              "end": 31,
+              "label": "GLINER_EMAIL",
+              "score": 0.9606550335884094
+            }
+          ]
+        },
+        {
+          "case": 46,
+          "category": "code-positive",
+          "expected": [
+            {
+              "start": 10,
+              "end": 20,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 10,
+              "end": 20,
+              "label": "GLINER_PERSON",
+              "score": 0.9968963861465454
+            },
+            {
+              "start": 10,
+              "end": 20,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 47,
+          "category": "code-positive",
+          "expected": [
+            {
+              "start": 18,
+              "end": 33,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 18,
+              "end": 33,
+              "label": "GLINER_PHONE",
+              "score": 0.9307045936584473
+            },
+            {
+              "start": 18,
+              "end": 33,
+              "label": "PHONE_NUMBER",
+              "score": 0.75
+            }
+          ]
+        },
+        {
+          "case": 48,
+          "category": "code-positive",
+          "expected": [
+            {
+              "start": 11,
+              "end": 34,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 11,
+              "end": 34,
+              "label": "GLINER_ADDRESS",
+              "score": 0.981386125087738
+            },
+            {
+              "start": 10,
+              "end": 13,
+              "label": "DATE_TIME",
+              "score": 0.85
+            },
+            {
+              "start": 28,
+              "end": 34,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 49,
+          "category": "secret",
+          "expected": [
+            {
+              "start": 14,
+              "end": 50,
+              "label": "secret"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 14,
+              "end": 50,
+              "label": "API_KEY",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "case": 50,
+          "category": "secret",
+          "expected": [
+            {
+              "start": 6,
+              "end": 44,
+              "label": "secret"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 6,
+              "end": 44,
+              "label": "API_KEY",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "case": 51,
+          "category": "secret",
+          "expected": [
+            {
+              "start": 19,
+              "end": 60,
+              "label": "secret"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 19,
+              "end": 60,
+              "label": "API_KEY",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "case": 52,
+          "category": "secret",
+          "expected": [
+            {
+              "start": 6,
+              "end": 45,
+              "label": "secret"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 6,
+              "end": 45,
+              "label": "API_KEY",
+              "score": 1.0
+            }
+          ]
+        },
+        {
+          "case": 53,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 20,
+              "end": 33,
+              "label": "date of birth"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 20,
+              "end": 33,
+              "label": "DATE_TIME",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 54,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 23,
+              "end": 31,
+              "label": "passport number"
+            }
+          ],
+          "predictions": []
+        },
+        {
+          "case": 55,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 23,
+              "end": 36,
+              "label": "ip address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 23,
+              "end": 36,
+              "label": "IP_ADDRESS",
+              "score": 0.95
+            }
+          ]
+        },
+        {
+          "case": 56,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 21,
+              "end": 33,
+              "label": "bank account"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 21,
+              "end": 33,
+              "label": "DATE_TIME",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 57,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 16,
+              "end": 33,
+              "label": "password"
+            }
+          ],
+          "predictions": []
+        },
+        {
+          "case": 58,
+          "category": "boundary",
+          "expected": [
+            {
+              "start": 113,
+              "end": 134,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 113,
+              "end": 134,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            },
+            {
+              "start": 113,
+              "end": 134,
+              "label": "GLINER_EMAIL",
+              "score": 0.8719807267189026
+            },
+            {
+              "start": 113,
+              "end": 120,
+              "label": "GLINER_PERSON",
+              "score": 0.859804630279541
+            }
+          ]
+        },
+        {
+          "case": 59,
+          "category": "boundary-name",
+          "expected": [
+            {
+              "start": 115,
+              "end": 127,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 115,
+              "end": 127,
+              "label": "GLINER_PERSON",
+              "score": 0.9996936321258545
+            },
+            {
+              "start": 115,
+              "end": 127,
+              "label": "PERSON",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 60,
+          "category": "boundary-phone",
+          "expected": [
+            {
+              "start": 115,
+              "end": 130,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 115,
+              "end": 130,
+              "label": "GLINER_PHONE",
+              "score": 0.9954351782798767
+            },
+            {
+              "start": 56,
+              "end": 57,
+              "label": "GLINER_PERSON",
+              "score": 0.5023581981658936
+            }
+          ]
+        },
+        {
+          "case": 61,
+          "category": "boundary",
+          "expected": [
+            {
+              "start": 193,
+              "end": 214,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 193,
+              "end": 214,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            },
+            {
+              "start": 193,
+              "end": 214,
+              "label": "GLINER_EMAIL",
+              "score": 0.8513292074203491
+            }
+          ]
+        },
+        {
+          "case": 62,
+          "category": "boundary-name",
+          "expected": [
+            {
+              "start": 195,
+              "end": 207,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 195,
+              "end": 207,
+              "label": "GLINER_PERSON",
+              "score": 0.999496340751648
+            }
+          ]
+        },
+        {
+          "case": 63,
+          "category": "boundary-phone",
+          "expected": [
+            {
+              "start": 195,
+              "end": 210,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 195,
+              "end": 210,
+              "label": "GLINER_PHONE",
+              "score": 0.9985063672065735
+            },
+            {
+              "start": 112,
+              "end": 116,
+              "label": "GLINER_PERSON",
+              "score": 0.7956137657165527
+            }
+          ]
+        },
+        {
+          "case": 64,
+          "category": "boundary",
+          "expected": [
+            {
+              "start": 233,
+              "end": 254,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 233,
+              "end": 254,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            },
+            {
+              "start": 112,
+              "end": 116,
+              "label": "GLINER_PERSON",
+              "score": 0.6362993717193604
+            },
+            {
+              "start": 226,
+              "end": 254,
+              "label": "GLINER_EMAIL",
+              "score": 0.5144456624984741
+            }
+          ]
+        },
+        {
+          "case": 65,
+          "category": "boundary-name",
+          "expected": [
+            {
+              "start": 235,
+              "end": 247,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 235,
+              "end": 247,
+              "label": "GLINER_PERSON",
+              "score": 0.9998244643211365
+            },
+            {
+              "start": 235,
+              "end": 247,
+              "label": "PERSON",
+              "score": 0.85
+            },
+            {
+              "start": 112,
+              "end": 116,
+              "label": "GLINER_PERSON",
+              "score": 0.6362993717193604
+            }
+          ]
+        },
+        {
+          "case": 66,
+          "category": "boundary-phone",
+          "expected": [
+            {
+              "start": 235,
+              "end": 250,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 235,
+              "end": 250,
+              "label": "GLINER_PHONE",
+              "score": 0.9967807531356812
+            },
+            {
+              "start": 112,
+              "end": 116,
+              "label": "GLINER_PERSON",
+              "score": 0.6362993717193604
+            }
+          ]
+        },
+        {
+          "case": 67,
+          "category": "boundary",
+          "expected": [
+            {
+              "start": 313,
+              "end": 334,
+              "label": "email address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 313,
+              "end": 334,
+              "label": "EMAIL_ADDRESS",
+              "score": 1.0
+            },
+            {
+              "start": 313,
+              "end": 334,
+              "label": "GLINER_EMAIL",
+              "score": 0.870861828327179
+            },
+            {
+              "start": 112,
+              "end": 116,
+              "label": "GLINER_PERSON",
+              "score": 0.6362993717193604
+            }
+          ]
+        },
+        {
+          "case": 68,
+          "category": "boundary-name",
+          "expected": [
+            {
+              "start": 315,
+              "end": 327,
+              "label": "person"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 315,
+              "end": 327,
+              "label": "GLINER_PERSON",
+              "score": 0.9998412132263184
+            },
+            {
+              "start": 315,
+              "end": 327,
+              "label": "PERSON",
+              "score": 0.85
+            },
+            {
+              "start": 112,
+              "end": 116,
+              "label": "GLINER_PERSON",
+              "score": 0.6362993717193604
+            }
+          ]
+        },
+        {
+          "case": 69,
+          "category": "boundary-phone",
+          "expected": [
+            {
+              "start": 315,
+              "end": 330,
+              "label": "phone number"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 315,
+              "end": 330,
+              "label": "GLINER_PHONE",
+              "score": 0.9981671571731567
+            },
+            {
+              "start": 112,
+              "end": 116,
+              "label": "GLINER_PERSON",
+              "score": 0.6362993717193604
+            }
+          ]
+        },
+        {
+          "case": 70,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 54,
+              "end": 135,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 73,
+              "end": 90,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 92,
+              "end": 101,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 103,
+              "end": 114,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 116,
+              "end": 135,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 71,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 134,
+              "end": 215,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 153,
+              "end": 170,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 172,
+              "end": 181,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 183,
+              "end": 194,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 196,
+              "end": 215,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 134,
+              "end": 176,
+              "label": "GLINER_ADDRESS",
+              "score": 0.762377917766571
+            },
+            {
+              "start": 168,
+              "end": 215,
+              "label": "GLINER_ADDRESS",
+              "score": 0.5140576362609863
+            }
+          ]
+        },
+        {
+          "case": 72,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 174,
+              "end": 255,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 193,
+              "end": 210,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 212,
+              "end": 221,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 223,
+              "end": 234,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 236,
+              "end": 255,
+              "label": "LOCATION",
+              "score": 0.85
+            }
+          ]
+        },
+        {
+          "case": 73,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 254,
+              "end": 335,
+              "label": "address"
+            }
+          ],
+          "predictions": [
+            {
+              "start": 273,
+              "end": 290,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 292,
+              "end": 301,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 303,
+              "end": 314,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 316,
+              "end": 335,
+              "label": "LOCATION",
+              "score": 0.85
+            },
+            {
+              "start": 254,
+              "end": 288,
+              "label": "GLINER_ADDRESS",
+              "score": 0.8063170909881592
+            },
+            {
+              "start": 280,
+              "end": 290,
+              "label": "GLINER_PERSON",
+              "score": 0.7497365474700928
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "median_seconds": 0.2139,
+      "total_seconds": 25.686
+    }
+  ],
+  "expected_spans": 69,
+  "presidio_entities": [
+    "PERSON",
+    "EMAIL_ADDRESS",
+    "PHONE_NUMBER",
+    "LOCATION",
+    "DATE_TIME",
+    "IP_ADDRESS",
+    "IBAN_CODE",
+    "CREDIT_CARD",
+    "US_SSN",
+    "US_PASSPORT"
+  ],
+  "measurement": "One sequential warm CPU scan per fictional example; recognizer span coverage, not production accuracy."
+}

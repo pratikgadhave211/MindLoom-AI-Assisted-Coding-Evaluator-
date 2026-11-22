@@ -1,0 +1,4 @@
+# Run deterministic validation and the advisory Jev safety check.
+define subflow check mindloom input
+  $rule_status = execute check_input_rules
+  $jev_result = execute check_input_jev

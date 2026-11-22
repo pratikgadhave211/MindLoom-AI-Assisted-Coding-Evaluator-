@@ -30,6 +30,7 @@ def open_memory(database_url, thread_id):
             request_id text PRIMARY KEY, attempt_id text NOT NULL REFERENCES agent_workspaces(thread_id) ON DELETE CASCADE,
             chat_id text NOT NULL REFERENCES agent_chats(id) ON DELETE CASCADE,
             prompt text NOT NULL, turn_id text NOT NULL, status text NOT NULL)""")
+        memory.conn.execute("ALTER TABLE agent_requests ADD COLUMN IF NOT EXISTS prompt_fingerprint text")
         memory.conn.execute("""CREATE TABLE IF NOT EXISTS predictometer_events (
             id bigserial PRIMARY KEY,
             attempt_id text NOT NULL REFERENCES agent_workspaces(thread_id) ON DELETE CASCADE,

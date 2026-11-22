@@ -1,25 +1,18 @@
 import httpx
+from pathlib import Path
 
 
-def check_with_jev(prompt, api_key):
-    # Ask Jev whether the prompt describes a software development request.
+def check_input_safety(prompt, api_key):
+    """Ask Jev to assess a protected prompt against our input policy."""
+    policy = (Path(__file__).resolve().parents[2] / "guardrails" / "input_policy.txt").read_text(encoding="utf-8")
     response = httpx.post(
         "https://api.typesafe.ai/v1/systemone",
         headers={"Authorization": f"Bearer {api_key}"},
-        json={
-            "model": "jev-latest",
-            "state": prompt,
-            "questions": {
-                "coding_request": {
-                    "type": "noul",
-                    "instructions": "The message is a request related to a software development task.",
-                }
-            },
-        },
-        timeout=15.0,
-    )
+        json={"model": "jev-latest", "state": prompt, "questions": {
+            "security_risk": {"type": "noul", "instructions": policy}
+        }}, timeout=15.0)
     response.raise_for_status()
-    score = response.json().get("answers", {}).get("coding_request", {}).get("noul")
+    score = response.json().get("answers", {}).get("security_risk", {}).get("noul")
     if isinstance(score, bool) or not isinstance(score, (int, float)) or not 0 <= score <= 1:
         raise ValueError("Jev returned an invalid score.")
     return score

@@ -15,6 +15,7 @@ class Config:
     langsmith_project: str = "default"
     checkpoint_database_url: str = field(default="", repr=False)
     provider: str = "openrouter"
+    fingerprint_key: str = field(default="", repr=False)
 
 
 def load_config(env_file=None):
@@ -34,6 +35,7 @@ def load_config(env_file=None):
     tracing = (os.environ.get("LANGSMITH_TRACING", values.get("LANGSMITH_TRACING")) or "false").strip().lower() == "true"
     project = (os.environ.get("LANGSMITH_PROJECT", values.get("LANGSMITH_PROJECT")) or "default").strip()
     database_url = (os.environ.get("CHECKPOINT_DATABASE_URL", values.get("CHECKPOINT_DATABASE_URL")) or "").strip()
+    fingerprint_key = (os.environ.get("AGENT_API_TOKEN", values.get("AGENT_API_TOKEN")) or "").strip()
     if not key:
         raise ValueError(f"Set {key_name} before running the agent.")
     if provider == "openrouter" and model != "openrouter/free" and not model.endswith(":free"):
@@ -42,4 +44,4 @@ def load_config(env_file=None):
         raise ValueError("Set LANGSMITH_API_KEY when tracing is enabled.")
     return Config(model=model, api_key=key, jev_api_key=jev_key, langsmith_api_key=langsmith_key,
                   langsmith_tracing=tracing, langsmith_project=project, checkpoint_database_url=database_url,
-                  provider=provider)
+                  provider=provider, fingerprint_key=fingerprint_key)

@@ -64,7 +64,7 @@ def test_malformed_tool_arguments_are_reported():
     assert result["tool_calls"] == []
 
 
-def test_jev_checks_valid_prompt_before_model_and_does_not_block_it():
+def test_input_guardrail_checks_valid_prompt_before_model():
     from coding_agent.graph import build_graph
 
     events = []
@@ -75,24 +75,24 @@ def test_jev_checks_valid_prompt_before_model_and_does_not_block_it():
             return super().invoke(messages)
 
     def check(prompt):
-        events.append("jev")
-        return 0.1
+        events.append("guardrail")
+        return {"risk_score": 0.1, "flagged": False}
 
-    result = build_graph(TrackingModel(AIMessage(content="Hello")), check).invoke({"prompt": "Hi"})
-    assert events == ["jev", "model"]
-    assert result["jev_score"] == 0.1
+    result = build_graph(TrackingModel(AIMessage(content="Hello")), input_checker=check).invoke({"prompt": "Hi"})
+    assert events == ["guardrail", "model"]
+    assert result["input_guardrail"]["risk_score"] == 0.1
     assert result["answer"] == "Hello"
 
 
-def test_jev_failure_is_reported_and_model_still_runs():
+def test_input_guardrail_failure_is_reported_and_model_still_runs():
     from coding_agent.graph import build_graph
 
     def fail(prompt):
         raise ValueError("private secret")
 
-    result = build_graph(FakeModel(AIMessage(content="Hello")), fail).invoke({"prompt": "Hi"})
-    assert result["jev_score"] is None
-    assert "private secret" not in result["jev_status"]
+    result = build_graph(FakeModel(AIMessage(content="Hello")), input_checker=fail).invoke({"prompt": "Hi"})
+    assert result["input_guardrail"]["risk_score"] is None
+    assert "private secret" not in repr(result["input_guardrail"])
     assert result["answer"] == "Hello"
 
 

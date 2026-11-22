@@ -1,7 +1,8 @@
 from langchain_core.messages import AIMessage, ToolMessage
 
 from .graph import build_graph
-from .jev import check_with_jev
+from .jev import check_input_safety
+from .input_guardrail import check_input
 from .model import make_model
 from .tools import TOOLS
 from .tracing import stream_graph
@@ -67,10 +68,9 @@ def run_turn(prompt, workspace, memory, thread_id, config, publish):
     log_event('turn started', {'thread_id': thread_id, 'prompt': prompt})
     # Reuse the same model, workspace, and checkpointed graph as the CLI.
     model = make_model(config, TOOLS)
-    jev = None
-    if config.jev_api_key:
-        jev = lambda text: check_with_jev(text, config.jev_api_key)
-    graph = build_graph(model, jev, workspace, checkpointer=memory)
+    safety = (lambda text: check_input_safety(text, config.jev_api_key)) if config.jev_api_key else None
+    graph = build_graph(model, workspace=workspace, checkpointer=memory,
+                        input_checker=lambda text: check_input(text, safety))
     options = {"configurable": {"thread_id": thread_id}}
     prepare_checkpoint(graph, options, workspace)
 

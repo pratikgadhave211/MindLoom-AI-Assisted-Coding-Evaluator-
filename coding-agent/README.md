@@ -10,7 +10,44 @@ From this folder, with Python 3.11 or newer:
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -e ".[test]"
+python -m spacy download en_core_web_sm
 ```
+
+The experimental prompt privacy scanner requires cached GLiNER files. Download
+these once before starting the agent (the PII model is about 1.16 GB):
+
+```powershell
+python -c "from huggingface_hub import snapshot_download; snapshot_download('urchade/gliner_multi_pii-v1', revision='1fcf13e85f4eef5394e1fcd406cf2ca9ea82351d'); snapshot_download('microsoft/mdeberta-v3-base', revision='a0484667b22365f84929a935b5e50a51f71f159d', allow_patterns=['config.json','tokenizer_config.json','spm.model'])"
+```
+
+New prompts are scanned locally by Presidio, spaCy, custom rules and GLiNER
+before chat storage and model calls. Models are loaded once per backend process
+on the first scan and reused. Detected values are replaced with placeholders.
+For IDE turns, secrets are encrypted in memory until the turn ends. The agent
+can request a controlled write of a secret placeholder to the workspace root
+`.env`; secrets are unavailable after the turn or a backend restart. The
+workspace and tool outputs are not yet protected from reading `.env`, so use
+fictional secrets only until tool and network protections are implemented.
+Missing models or a scanner failure block the prompt. Detection is
+incomplete and may flag ordinary words; tool results, existing chat history,
+and workspace files are not yet protected by this prompt-only feature.
+Retries use a keyed fingerprint derived from `AGENT_API_TOKEN`; changing that
+token prevents matching old fingerprinted requests.
+
+After the privacy scan, the `input_guardrail` graph step runs NeMo input
+actions for prompt validation and a separate Jev security-risk question. This
+records the rule status, Jev status, risk score, 0.55 threshold and flag in the
+graph trace and backend log. Scores strictly above 0.55 are flagged and receive
+a general response without calling the coding model. An unavailable score has
+an unknown flag.
+If Jev or NeMo is unavailable, the step reports that status and the agent
+continues. Restart
+the backend after installing the new dependency.
+
+The NeMo configuration lives in `guardrails/config.yml` and `guardrails/rails.co`.
+Jev receives the policy in `guardrails/input_policy.txt`; edit that file to
+review or change the security question. Adding a policy does not by itself make
+the input rail enforce it.
 
 Set `OPENROUTER_API_KEY` and optionally `TYPESAFE_API_KEY` in the local `.env` file or in your environment. Environment variables take priority. Never commit the keys or paste them into a prompt. The default model is `openrouter/free`; optionally set `OPENROUTER_MODEL` to a specific free model ID ending in `:free`.
 

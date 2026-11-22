@@ -4,6 +4,35 @@ from types import SimpleNamespace
 from coding_agent import tracing
 
 
+def test_privacy_trace_contains_only_safe_scan_metadata(monkeypatch):
+    events = []
+
+    class Client:
+        def __init__(self, api_key):
+            pass
+        def flush(self):
+            events.append("flush")
+
+    @contextmanager
+    def context(**kwargs):
+        assert kwargs["enabled"] is True
+        assert kwargs["project_name"] == "test-project"
+        yield
+
+    monkeypatch.setattr(tracing, "Client", Client)
+    monkeypatch.setattr(tracing, "tracing_context", context)
+    monkeypatch.setattr(tracing, "_privacy_scan_event", lambda count, status: events.append((count, status)))
+    config = SimpleNamespace(langsmith_tracing=True, langsmith_api_key="test", langsmith_project="test-project")
+    tracing.record_privacy_scan(config, 1, "completed")
+    assert events == [(1, "completed"), "flush"]
+
+
+def test_privacy_trace_failure_does_not_block_user(monkeypatch):
+    monkeypatch.setattr(tracing, "Client", lambda **kwargs: (_ for _ in ()).throw(RuntimeError("offline")))
+    config = SimpleNamespace(langsmith_tracing=True, langsmith_api_key="test", langsmith_project="test-project")
+    tracing.record_privacy_scan(config, 1, "completed")
+
+
 def test_graph_is_traced_to_requested_project_and_flushed(monkeypatch):
     events = []
 

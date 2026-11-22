@@ -1,0 +1,6 @@
+# Configure the input rail. Other rail types can be added here later.
+colang_version: "1.0"
+rails:
+  input:
+    flows:
+      - check mindloom input
