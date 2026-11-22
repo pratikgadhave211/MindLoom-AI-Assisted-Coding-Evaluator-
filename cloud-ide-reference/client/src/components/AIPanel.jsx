@@ -113,6 +113,7 @@ function ChatConversation({ token, attempt, chat, canStart, onRunningChange, onB
   const historyLost = useRef(false);
   const [pending, setPending] = useState(null);
   const pendingKey = `agent-request-${attempt}-${chat}`;
+  const recoveredRequest = useRef('');
 
   async function watch(turnId) {
     if (watching.current) return;
@@ -148,10 +149,9 @@ function ChatConversation({ token, attempt, chat, canStart, onRunningChange, onB
     if (saved) {
       try {
         const request = JSON.parse(saved);
-        setPending(request);
-        setLoading(false);
-        submitRequest(request);
-        return () => { cancelled = true; };
+        // Older versions stored the prompt; retain only the request ID.
+        recoveredRequest.current = request.id || '';
+        sessionStorage.setItem(pendingKey, JSON.stringify({ id: recoveredRequest.current }));
       } catch {
         sessionStorage.removeItem(pendingKey);
       }
@@ -166,6 +166,8 @@ function ChatConversation({ token, attempt, chat, canStart, onRunningChange, onB
         return;
       }
       if (history.running_turn) {
+        sessionStorage.removeItem(pendingKey);
+        recoveredRequest.current = '';
         setRunning(true);
         onRunningChange(true);
         setTurn(history.running_turn);
@@ -173,7 +175,11 @@ function ChatConversation({ token, attempt, chat, canStart, onRunningChange, onB
       } else if (history.workspace_busy) {
         onRunningChange(true);
         setError('Another session is using this workspace. Reload after it finishes.');
-      } else { onRunningChange(false); onBusyChange(false); }
+      } else {
+        onRunningChange(false);
+        onBusyChange(false);
+        if (recoveredRequest.current) setError('Re-enter the same prompt to safely retry the previous request.');
+      }
     }).catch(problem => { if (!cancelled) setError(`Could not check the agent state: ${problem.message}. Reload to retry.`); });
     return () => { cancelled = true; };
   }, [attempt, token, chat]);
@@ -195,6 +201,7 @@ function ChatConversation({ token, attempt, chat, canStart, onRunningChange, onB
       setPrompt('');
       const history = await api.chatHistory(attempt, chat);
       sessionStorage.removeItem(pendingKey);
+      recoveredRequest.current = '';
       setPending(null);
       if (historyLost.current) setMessages(items => [...items, { role: 'user', content: request.prompt }]);
       else setMessages(history.messages);
@@ -214,8 +221,9 @@ function ChatConversation({ token, attempt, chat, canStart, onRunningChange, onB
         if (result.status === 'interrupted') setError('The earlier request was interrupted. Check the workspace before sending again.');
       }
     } catch (problem) {
-      if (!accepted && problem.status && problem.status < 500) {
+      if (!accepted && problem.status && (problem.status < 500 || problem.status === 503)) {
         sessionStorage.removeItem(pendingKey);
+        recoveredRequest.current = '';
         setPending(null);
         setPrompt(request.prompt);
         try {
@@ -237,7 +245,7 @@ function ChatConversation({ token, attempt, chat, canStart, onRunningChange, onB
           setError('Could not confirm the workspace status. Reload after the API is available.');
         }
       } else {
-        sessionStorage.setItem(pendingKey, JSON.stringify(request));
+        sessionStorage.setItem(pendingKey, JSON.stringify({ id: request.id }));
         setPending(request);
         setError('Could not confirm the request. Retry with the same request ID.');
       }
@@ -252,8 +260,8 @@ function ChatConversation({ token, attempt, chat, canStart, onRunningChange, onB
     if (!text || starting.current || running || loading) return;
     const reason = canStart();
     if (reason) { setError(reason); return; }
-    const request = { id: crypto.randomUUID(), prompt: text };
-    sessionStorage.setItem(pendingKey, JSON.stringify(request));
+    const request = { id: recoveredRequest.current || crypto.randomUUID(), prompt: text };
+    sessionStorage.setItem(pendingKey, JSON.stringify({ id: request.id }));
     setPending(request);
     submitRequest(request);
   }

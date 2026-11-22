@@ -1,21 +1,27 @@
 import json
 from typing import Any, TypedDict
 
-from langchain_core.messages import HumanMessage, SystemMessage, ToolMessage
+from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, ToolMessage
 from langgraph.graph import END, START, StateGraph
 
 from .model import model_error
 from .sanity import check_prompt
 from .tools import TOOLS, execute_tool_call, validate_tool_call
 from .diagnostics import log_event, log_error
+from .privacy import RESERVED
+from .input_guardrail import RISK_THRESHOLD
+from .secret_store import write_env_secret
 
 MODEL_CALL_LIMIT = 25
+GUARDRAIL_MESSAGE = "I can't help with that request. Please rephrase it or provide more context so I can help."
 ORIGINAL_INSTRUCTIONS = "You are a coding assistant. Inspect and edit the workspace using the available tools. Run tests when appropriate. Report actual tool results and do not claim tests passed if they failed or were not run."
 INSTRUCTIONS = ORIGINAL_INSTRUCTIONS + (
     " Give brief user-facing progress updates at meaningful findings, changes of direction, blockers, "
     "or when starting verification. Do not narrate every tool call. "
     "When continuing, include the update with the next tool request. "
-    "Base claims on actual results and do not reveal private reasoning."
+    "Base claims on actual results and do not reveal private reasoning. "
+    "Use set_env_secret to place a secret placeholder in the root .env when the user asks. "
+    "Never write placeholders using edit_file or run_command. Report only actual tool results."
 )
 
 
@@ -26,15 +32,14 @@ class AgentState(TypedDict, total=False):
     tool_calls: list
     error: str
     response: Any
-    jev_score: float | None
-    jev_status: str
+    input_guardrail: dict
     messages: list
     model_count: int
     tool_count: int
     pending_calls: list
 
 
-def build_graph(model, jev_checker=None, workspace=None, checkpointer=None):
+def build_graph(model, workspace=None, checkpointer=None, input_checker=None):
     # Step 1: check the user's prompt before contacting the model.
     def check(state):
         try:
@@ -44,7 +49,8 @@ def build_graph(model, jev_checker=None, workspace=None, checkpointer=None):
             messages = list(state.get("messages", []))
             if not messages:
                 messages.append(SystemMessage(content=INSTRUCTIONS))
-            elif isinstance(messages[0], SystemMessage) and messages[0].content == ORIGINAL_INSTRUCTIONS:
+            elif isinstance(messages[0], SystemMessage) and (messages[0].content == ORIGINAL_INSTRUCTIONS or
+                    "Privacy placeholders represent unavailable values" in messages[0].content):
                 # Refresh our old instruction while preserving the rest of the conversation.
                 messages[0] = messages[0].model_copy(update={"content": INSTRUCTIONS})
             messages.append(HumanMessage(content=prompt))
@@ -56,15 +62,25 @@ def build_graph(model, jev_checker=None, workspace=None, checkpointer=None):
         except (KeyError, AttributeError, ValueError) as error:
             return {"error": str(error) or "Please enter a prompt."}
 
-    # Step 2: ask Jev for an advisory score; never block the model on it.
-    def check_with_jev(state):
-        if jev_checker is None:
-            return {"jev_score": None, "jev_status": "not configured"}
+    def check_input_guardrail(state):
+        """Run the NeMo input rail on the protected prompt."""
+        if input_checker is None:
+            return {"input_guardrail": {"rule_status": "not configured", "jev_status": "not configured", "risk_score": None,
+                                        "threshold": RISK_THRESHOLD, "flagged": None}}
         try:
-            return {"jev_score": jev_checker(state["prompt"]), "jev_status": "checked"}
-        except Exception as error:
-            log_error('Jev error', error)
-            return {"jev_score": None, "jev_status": "unavailable"}
+            result = input_checker(state["prompt"])
+            log_event("input guardrail", result)
+            return {"input_guardrail": result}
+        except Exception:
+            result = {"rule_status": "unavailable", "jev_status": "unavailable", "risk_score": None,
+                      "threshold": RISK_THRESHOLD, "flagged": None}
+            log_event("input guardrail", result)
+            return {"input_guardrail": result}
+
+    def reject_input(state):
+        """Reply without calling the model when the input guardrail flags a prompt."""
+        return {"answer": GUARDRAIL_MESSAGE,
+                "messages": list(state["messages"]) + [AIMessage(content=GUARDRAIL_MESSAGE)]}
 
     # Step 3: ask the model to answer or choose from the available tools.
     def ask_model(state):
@@ -107,7 +123,19 @@ def build_graph(model, jev_checker=None, workspace=None, checkpointer=None):
             result = {"id": call["id"], "name": call.get("name") or "unknown", "args": {}, "status": "error", "result": "Invalid tool request: malformed arguments."}
         else:
             try:
-                result = execute_tool_call(workspace, call, langsmith_extra={"name": call.get("name", "unknown_tool")})
+                args = call.get("args", {})
+                if call.get("name") == "set_env_secret":
+                    result = validate_tool_call(call)
+                    store = getattr(workspace, "secret_store", None)
+                    message = write_env_secret(workspace, store, args["name"], args["placeholder"]) if store else "The secret was not written: placeholder unavailable."
+                    result.update(status="completed" if message.startswith("The secret was written") else "error", result=message)
+                elif call.get("id") and call.get("name") in ("edit_file", "run_command") and any(
+                    RESERVED.search(value) for value in args.values() if isinstance(value, str)
+                ):
+                    result = {"id": call["id"], "name": call["name"], "args": args, "status": "error",
+                              "result": "Privacy placeholder resolution is not available. The secret was not written."}
+                else:
+                    result = execute_tool_call(workspace, call, langsmith_extra={"name": call.get("name", "unknown_tool")})
             except (ValueError, TypeError, AttributeError):
                 if not call.get("id"):
                     return {"error": "The model returned a tool request without an ID."}
@@ -147,7 +175,8 @@ def build_graph(model, jev_checker=None, workspace=None, checkpointer=None):
 
     graph = StateGraph(AgentState)
     graph.add_node("check_prompt", check)
-    graph.add_node("check_with_jev", check_with_jev)
+    graph.add_node("input_guardrail", check_input_guardrail)
+    graph.add_node("reject_input", reject_input)
     graph.add_node("ask_model", ask_model)
     graph.add_node("show_result", show_result)
     tool_names = {item.name for item in TOOLS}
@@ -156,8 +185,10 @@ def build_graph(model, jev_checker=None, workspace=None, checkpointer=None):
     graph.add_node("invalid_tool", execute_tool)
     graph.add_node("finish", finish)
     graph.add_edge(START, "check_prompt")
-    graph.add_conditional_edges("check_prompt", lambda state: "show_result" if state.get("error") else "check_with_jev")
-    graph.add_edge("check_with_jev", "ask_model")
+    graph.add_conditional_edges("check_prompt", lambda state: "show_result" if state.get("error") else "input_guardrail")
+    graph.add_conditional_edges("input_guardrail", lambda state: "reject_input"
+                                if state.get("input_guardrail", {}).get("flagged") is True else "ask_model")
+    graph.add_edge("reject_input", END)
     graph.add_conditional_edges("ask_model", after_model)
     for name in tool_names | {"invalid_tool"}:
         graph.add_conditional_edges(name, after_tool)

@@ -1,4 +1,23 @@
-from langsmith import Client, tracing_context
+from langsmith import Client, traceable, tracing_context
+
+
+@traceable(name="privacy_scan", run_type="chain")
+def _privacy_scan_event(count, status):
+    """Trace only scan metadata, never prompt text or detected values."""
+    return {"masked_spans": count, "status": status}
+
+
+def record_privacy_scan(config, count, status):
+    """Send a standalone scan event without failing the agent on tracing errors."""
+    if not getattr(config, "langsmith_tracing", False):
+        return
+    try:
+        client = Client(api_key=config.langsmith_api_key)
+        with tracing_context(enabled=True, project_name=config.langsmith_project, client=client):
+            _privacy_scan_event(count, status)
+        client.flush()
+    except Exception:
+        print("LangSmith could not record the privacy scan.")
 
 
 def run_graph(graph, prompt, config, thread_id=None):

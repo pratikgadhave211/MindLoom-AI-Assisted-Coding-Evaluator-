@@ -1,4 +1,6 @@
 import threading
+import hashlib
+import hmac
 from collections import deque
 from pathlib import Path
 from uuid import uuid4
@@ -12,6 +14,9 @@ from .config import load_config
 from .container_workspace import start_workspace, stop_workspace, resume_workspace, run_workspace_tool, docker
 from .memory import open_memory, get_workspace, get_challenge, save_workspace, ensure_original_chat, append_chat_event, record_evidence, get_evidence
 from .sanity import check_prompt
+from .privacy import protect_prompt
+from .secret_store import SecretStore
+from .tracing import record_privacy_scan
 from .diagnostics import log_error
 from .direction import run_direction_check, run_latest_direction_check, load_challenge, load_code_context, latest_direction, latest_code
 from .predictometer import combine_signals
@@ -117,14 +122,33 @@ class AttemptManager:
         prompt = check_prompt(prompt)
         with self.lock:
             attempt = self.attempts[attempt_id]
+        # Scanning can take time; do not hold the manager lock for other users.
+        secrets_for_turn = SecretStore()
+        try:
+            protected_prompt, masked_count = protect_prompt(prompt, secret_store=secrets_for_turn)
+        except RuntimeError:
+            record_privacy_scan(attempt["config"], 0, "failed")
+            raise
+        with self.lock:
+            if self.attempts.get(attempt_id) is not attempt:
+                raise KeyError(attempt_id)
+            fingerprint = None
             if request_id:
+                key = getattr(attempt["config"], "fingerprint_key", "")
+                if not key:
+                    raise RuntimeError("Privacy protection requires AGENT_API_TOKEN.")
+                # A keyed digest identifies retries without storing the original prompt.
+                message = f"mindloom-prompt:{attempt_id}:{chat_id}:{prompt}"
+                fingerprint = hmac.new(key.encode(), message.encode(), hashlib.sha256).hexdigest()
                 self._check_chat(attempt, attempt_id, chat_id)
                 chat_memory = self._chat_memory(attempt)
                 existing = chat_memory.conn.execute(
-                    'SELECT attempt_id, chat_id, prompt, turn_id, status FROM agent_requests WHERE request_id = %s',
+                    'SELECT attempt_id, chat_id, prompt, prompt_fingerprint, turn_id, status FROM agent_requests WHERE request_id = %s',
                     (request_id,)).fetchone()
                 if existing:
-                    if existing['attempt_id'] != attempt_id or existing['chat_id'] != chat_id or existing['prompt'] != prompt:
+                    same_prompt = (hmac.compare_digest(existing['prompt_fingerprint'], fingerprint)
+                                   if existing['prompt_fingerprint'] else existing['prompt'] == prompt)
+                    if existing['attempt_id'] != attempt_id or existing['chat_id'] != chat_id or not same_prompt:
                         raise ValueError('Request ID was already used for another request.')
                     turn = attempt['turns'].get(existing['turn_id'])
                     status = turn.status if turn and turn.done else existing['status']
@@ -140,6 +164,8 @@ class AttemptManager:
                 chat_id = attempt_id
             if chat_id:
                 self._check_chat(attempt, attempt_id, chat_id)
+            # Protect the prompt before chat history, traces, Jev, or the model see it.
+            prompt = protected_prompt
             attempt["busy"] = True
             turn_id = str(uuid4())
             try:
@@ -148,8 +174,8 @@ class AttemptManager:
                     if chat_id:
                         if request_id:
                             row = chat_memory.conn.execute(
-                                "INSERT INTO agent_requests (request_id, attempt_id, chat_id, prompt, turn_id, status) VALUES (%s, %s, %s, %s, %s, 'running') ON CONFLICT DO NOTHING RETURNING request_id",
-                                (request_id, attempt_id, chat_id, prompt, turn_id)).fetchone()
+                                "INSERT INTO agent_requests (request_id, attempt_id, chat_id, prompt, turn_id, status, prompt_fingerprint) VALUES (%s, %s, %s, %s, %s, 'running', %s) ON CONFLICT DO NOTHING RETURNING request_id",
+                                (request_id, attempt_id, chat_id, prompt, turn_id, fingerprint)).fetchone()
                             if not row:
                                 raise ValueError('Request ID was already used for another request.')
                         append_chat_event(chat_memory, chat_id, turn_id, {'type': 'prompt', 'message': prompt})
@@ -182,7 +208,11 @@ class AttemptManager:
             attempt["turns"][turn_id] = turn
 
         def worker():
+            attempt["workspace"].secret_store = secrets_for_turn
             turn.publish({"type": "turn_started"})
+            record_privacy_scan(attempt["config"], masked_count, "completed")
+            if masked_count:
+                turn.publish({"type": "progress_update", "message": "Sensitive information was replaced before sending to the agent."})
             status = "failed"
             try:
                 result = run_turn(prompt, attempt["workspace"], attempt["memory"], chat_id or attempt_id,
@@ -196,6 +226,8 @@ class AttemptManager:
                 log_error('turn error', error)
                 turn.publish({"type": "error", "message": "The agent turn failed. Check the server logs and workspace."})
             finally:
+                secrets_for_turn.clear()
+                attempt["workspace"].secret_store = None
                 turn.publish({"type": "turn_finished", "status": status})
                 turn.status = status if turn.save or not chat_id else 'interrupted'
                 if request_id:

@@ -31,6 +31,7 @@ def test_turns_keep_same_workspace_and_reject_overlap(monkeypatch):
     monkeypatch.setattr(attempts, "save_workspace", lambda *args: None)
     monkeypatch.setattr(attempts, "stop_workspace", lambda workspace: None)
     monkeypatch.setattr(attempts, "run_turn", run)
+    monkeypatch.setattr(attempts, "protect_prompt", lambda prompt, **kwargs: (prompt, 0))
     monkeypatch.setattr(attempts, "run_workspace_tool", lambda workspace, name, args: {"status": "completed", "result": "ok"})
     manager = attempts.AttemptManager()
     monkeypatch.setattr(manager, '_chat_memory', lambda attempt: SimpleNamespace(conn=SimpleNamespace(transaction=nullcontext)))

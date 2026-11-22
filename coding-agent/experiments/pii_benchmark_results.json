@@ -1,0 +1,3717 @@
+{
+  "cases": [
+    {
+      "category": "person",
+      "text": "Ask Priya Sharma to review the login page.",
+      "expected": [
+        {
+          "start": 4,
+          "end": 16,
+          "label": "person"
+        }
+      ]
+    },
+    {
+      "category": "person",
+      "text": "Tell Alex that the deploy is ready.",
+      "expected": [
+        {
+          "start": 5,
+          "end": 9,
+          "label": "person"
+        }
+      ]
+    },
+    {
+      "category": "person",
+      "text": "María García reported that the session expires.",
+      "expected": [
+        {
+          "start": 0,
+          "end": 12,
+          "label": "person"
+        }
+      ]
+    },
+    {
+      "category": "person",
+      "text": "The ticket was opened by Aisha Khan yesterday.",
+      "expected": [
+        {
+          "start": 25,
+          "end": 35,
+          "label": "person"
+        }
+      ]
+    },
+    {
+      "category": "person",
+      "text": "Dr. Chen can verify the migration.",
+      "expected": [
+        {
+          "start": 4,
+          "end": 8,
+          "label": "person"
+        }
+      ]
+    },
+    {
+      "category": "person",
+      "text": "Contact Jean-Luc Moreau about the failure.",
+      "expected": [
+        {
+          "start": 8,
+          "end": 23,
+          "label": "person"
+        }
+      ]
+    },
+    {
+      "category": "email",
+      "text": "Send the logs to priya.sharma@example.com.",
+      "expected": [
+        {
+          "start": 17,
+          "end": 41,
+          "label": "email address"
+        }
+      ]
+    },
+    {
+      "category": "email",
+      "text": "The account for alex+test@example.org cannot log in.",
+      "expected": [
+        {
+          "start": 16,
+          "end": 37,
+          "label": "email address"
+        }
+      ]
+    },
+    {
+      "category": "email",
+      "text": "Please update USER42@example.net in the config.",
+      "expected": [
+        {
+          "start": 14,
+          "end": 32,
+          "label": "email address"
+        }
+      ]
+    },
+    {
+      "category": "email",
+      "text": "Mail support-team@example.com about this issue.",
+      "expected": [
+        {
+          "start": 5,
+          "end": 29,
+          "label": "email address"
+        }
+      ]
+    },
+    {
+      "category": "email",
+      "text": "Email: hello.world@example.org",
+      "expected": [
+        {
+          "start": 7,
+          "end": 30,
+          "label": "email address"
+        }
+      ]
+    },
+    {
+      "category": "email",
+      "text": "The owner is dev_ops@example.net.",
+      "expected": [
+        {
+          "start": 13,
+          "end": 32,
+          "label": "email address"
+        }
+      ]
+    },
+    {
+      "category": "phone",
+      "text": "Call me at +1 202-555-0148 after the test.",
+      "expected": [
+        {
+          "start": 11,
+          "end": 26,
+          "label": "phone number"
+        }
+      ]
+    },
+    {
+      "category": "phone",
+      "text": "My number is (202) 555-0174, call only if needed.",
+      "expected": [
+        {
+          "start": 13,
+          "end": 27,
+          "label": "phone number"
+        }
+      ]
+    },
+    {
+      "category": "phone",
+      "text": "Reach Ravi at +91 98765 43210.",
+      "expected": [
+        {
+          "start": 6,
+          "end": 10,
+          "label": "person"
+        },
+        {
+          "start": 14,
+          "end": 29,
+          "label": "phone number"
+        }
+      ]
+    },
+    {
+      "category": "phone",
+      "text": "Contact number: 020 7946 0958.",
+      "expected": [
+        {
+          "start": 16,
+          "end": 29,
+          "label": "phone number"
+        }
+      ]
+    },
+    {
+      "category": "phone",
+      "text": "Send a message to +33 6 12 34 56 78.",
+      "expected": [
+        {
+          "start": 18,
+          "end": 35,
+          "label": "phone number"
+        }
+      ]
+    },
+    {
+      "category": "phone",
+      "text": "phone = '202-555-0199'",
+      "expected": [
+        {
+          "start": 9,
+          "end": 21,
+          "label": "phone number"
+        }
+      ]
+    },
+    {
+      "category": "address",
+      "text": "The user lives at 123 Maple Street, Boston.",
+      "expected": [
+        {
+          "start": 18,
+          "end": 42,
+          "label": "address"
+        }
+      ]
+    },
+    {
+      "category": "address",
+      "text": "Send the letter to 42 Baker Street, London.",
+      "expected": [
+        {
+          "start": 19,
+          "end": 42,
+          "label": "address"
+        }
+      ]
+    },
+    {
+      "category": "address",
+      "text": "Billing address: 18 Oak Road, Bristol.",
+      "expected": [
+        {
+          "start": 17,
+          "end": 37,
+          "label": "address"
+        }
+      ]
+    },
+    {
+      "category": "address",
+      "text": "Our customer lives at 15 Park Avenue, New York.",
+      "expected": [
+        {
+          "start": 22,
+          "end": 46,
+          "label": "address"
+        }
+      ]
+    },
+    {
+      "category": "address",
+      "text": "Ship it to 20 Hill Street, Pune.",
+      "expected": [
+        {
+          "start": 11,
+          "end": 31,
+          "label": "address"
+        }
+      ]
+    },
+    {
+      "category": "address",
+      "text": "Update the address to 9 Lake View Road, Mumbai.",
+      "expected": [
+        {
+          "start": 22,
+          "end": 46,
+          "label": "address"
+        }
+      ]
+    },
+    {
+      "category": "mixed",
+      "text": "Priya Shah uses priya@example.com.",
+      "expected": [
+        {
+          "start": 0,
+          "end": 10,
+          "label": "person"
+        },
+        {
+          "start": 16,
+          "end": 33,
+          "label": "email address"
+        }
+      ]
+    },
+    {
+      "category": "mixed",
+      "text": "Call Alex at +1 202-555-0182.",
+      "expected": [
+        {
+          "start": 5,
+          "end": 9,
+          "label": "person"
+        },
+        {
+          "start": 13,
+          "end": 28,
+          "label": "phone number"
+        }
+      ]
+    },
+    {
+      "category": "mixed",
+      "text": "Email Maya Singh at maya@example.org about the bug.",
+      "expected": [
+        {
+          "start": 6,
+          "end": 16,
+          "label": "person"
+        },
+        {
+          "start": 20,
+          "end": 36,
+          "label": "email address"
+        }
+      ]
+    },
+    {
+      "category": "mixed",
+      "text": "Paul lives at 12 Elm Street, London.",
+      "expected": [
+        {
+          "start": 0,
+          "end": 4,
+          "label": "person"
+        },
+        {
+          "start": 14,
+          "end": 35,
+          "label": "address"
+        }
+      ]
+    },
+    {
+      "category": "multilingual",
+      "text": "María López vive en 20 Calle Luna, Madrid.",
+      "expected": [
+        {
+          "start": 0,
+          "end": 11,
+          "label": "person"
+        },
+        {
+          "start": 20,
+          "end": 41,
+          "label": "address"
+        }
+      ]
+    },
+    {
+      "category": "multilingual",
+      "text": "Contactez Marie Dupont à marie@example.fr.",
+      "expected": [
+        {
+          "start": 10,
+          "end": 22,
+          "label": "person"
+        },
+        {
+          "start": 25,
+          "end": 41,
+          "label": "email address"
+        }
+      ]
+    },
+    {
+      "category": "multilingual",
+      "text": "Rufen Sie Anna Weber unter +49 30 12345678 an.",
+      "expected": [
+        {
+          "start": 10,
+          "end": 20,
+          "label": "person"
+        },
+        {
+          "start": 27,
+          "end": 42,
+          "label": "phone number"
+        }
+      ]
+    },
+    {
+      "category": "multilingual",
+      "text": "Priya ko login issue ke baare mein batao.",
+      "expected": [
+        {
+          "start": 0,
+          "end": 5,
+          "label": "person"
+        }
+      ]
+    },
+    {
+      "category": "code-negative",
+      "text": "def send_email(user):\n    recipient = user.email\n    return send(recipient)",
+      "expected": []
+    },
+    {
+      "category": "code-negative",
+      "text": "user = get_user(user_id)\nreturn user.name",
+      "expected": []
+    },
+    {
+      "category": "code-negative",
+      "text": "def login(request):\n    return authenticate(request.form)",
+      "expected": []
+    },
+    {
+      "category": "code-negative",
+      "text": "address = request.remote_addr\nreturn render_template('index.html')",
+      "expected": []
+    },
+    {
+      "category": "code-negative",
+      "text": "email = form.email.data\nvalidate_email(email)",
+      "expected": []
+    },
+    {
+      "category": "code-negative",
+      "text": "Contact the maintainer if the tests fail.",
+      "expected": []
+    },
+    {
+      "category": "code-negative",
+      "text": "Search for users and paginate the results.",
+      "expected": []
+    },
+    {
+      "category": "code-negative",
+      "text": "python -m pytest tests/test_login.py",
+      "expected": []
+    },
+    {
+      "category": "code-negative",
+      "text": "The phone field should be optional in the schema.",
+      "expected": []
+    },
+    {
+      "category": "code-negative",
+      "text": "name = user.get('name')\nprint(name)",
+      "expected": []
+    },
+    {
+      "category": "code-negative",
+      "text": "POST /api/users HTTP/1.1\nContent-Type: application/json",
+      "expected": []
+    },
+    {
+      "category": "code-negative",
+      "text": "Please compare the Person class with the Account class.",
+      "expected": []
+    },
+    {
+      "category": "code-positive",
+      "text": "owner_email = 'dana@example.com'",
+      "expected": [
+        {
+          "start": 15,
+          "end": 31,
+          "label": "email address"
+        }
+      ]
+    },
+    {
+      "category": "code-positive",
+      "text": "# Contact Priya Shah about this migration.",
+      "expected": [
+        {
+          "start": 10,
+          "end": 20,
+          "label": "person"
+        }
+      ]
+    },
+    {
+      "category": "code-positive",
+      "text": "customer_phone = '+1 202-555-0104'",
+      "expected": [
+        {
+          "start": 18,
+          "end": 33,
+          "label": "phone number"
+        }
+      ]
+    },
+    {
+      "category": "code-positive",
+      "text": "address = '12 Cedar Street, Boston'",
+      "expected": [
+        {
+          "start": 11,
+          "end": 34,
+          "label": "address"
+        }
+      ]
+    },
+    {
+      "category": "secret",
+      "text": "Use this key: gsk_AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "expected": [
+        {
+          "start": 14,
+          "end": 50,
+          "label": "secret"
+        }
+      ]
+    },
+    {
+      "category": "secret",
+      "text": "token=nvapi-BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+      "expected": [
+        {
+          "start": 6,
+          "end": 44,
+          "label": "secret"
+        }
+      ]
+    },
+    {
+      "category": "secret",
+      "text": "OPENROUTER_API_KEY=sk-or-v1-cccccccccccccccccccccccccccccccc",
+      "expected": [
+        {
+          "start": 19,
+          "end": 60,
+          "label": "secret"
+        }
+      ]
+    },
+    {
+      "category": "secret",
+      "text": "Paste apikey_dddddddddddddddddddddddddddddddd in the config.",
+      "expected": [
+        {
+          "start": 6,
+          "end": 45,
+          "label": "secret"
+        }
+      ]
+    },
+    {
+      "category": "unsupported",
+      "text": "My date of birth is 14 March 1995.",
+      "expected": [
+        {
+          "start": 20,
+          "end": 33,
+          "label": "date of birth"
+        }
+      ]
+    },
+    {
+      "category": "unsupported",
+      "text": "The passport number is X1234567.",
+      "expected": [
+        {
+          "start": 23,
+          "end": 31,
+          "label": "passport number"
+        }
+      ]
+    },
+    {
+      "category": "unsupported",
+      "text": "The user IP address is 198.51.100.42.",
+      "expected": [
+        {
+          "start": 23,
+          "end": 36,
+          "label": "ip address"
+        }
+      ]
+    },
+    {
+      "category": "unsupported",
+      "text": "My account number is 123456789012.",
+      "expected": [
+        {
+          "start": 21,
+          "end": 33,
+          "label": "bank account"
+        }
+      ]
+    },
+    {
+      "category": "unsupported",
+      "text": "The password is amber-wood-forest.",
+      "expected": [
+        {
+          "start": 16,
+          "end": 33,
+          "label": "password"
+        }
+      ]
+    },
+    {
+      "category": "boundary",
+      "text": "Please inspect the login flow and check the user settings. Please inspect the login flow and check the user sett priyashah@example.com reported the issue.",
+      "expected": [
+        {
+          "start": 113,
+          "end": 134,
+          "label": "email address"
+        }
+      ]
+    },
+    {
+      "category": "boundary-name",
+      "text": "Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settin Priya Sharma reported the issue.",
+      "expected": [
+        {
+          "start": 115,
+          "end": 127,
+          "label": "person"
+        }
+      ]
+    },
+    {
+      "category": "boundary-phone",
+      "text": "Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settin +1 202-555-0137 is the contact number.",
+      "expected": [
+        {
+          "start": 115,
+          "end": 130,
+          "label": "phone number"
+        }
+      ]
+    },
+    {
+      "category": "boundary",
+      "text": "Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings. Please inspect  priyashah@example.com reported the issue.",
+      "expected": [
+        {
+          "start": 193,
+          "end": 214,
+          "label": "email address"
+        }
+      ]
+    },
+    {
+      "category": "boundary-name",
+      "text": "Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings. Please inspect th Priya Sharma reported the issue.",
+      "expected": [
+        {
+          "start": 195,
+          "end": 207,
+          "label": "person"
+        }
+      ]
+    },
+    {
+      "category": "boundary-phone",
+      "text": "Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings. Please inspect th +1 202-555-0137 is the contact number.",
+      "expected": [
+        {
+          "start": 195,
+          "end": 210,
+          "label": "phone number"
+        }
+      ]
+    },
+    {
+      "category": "boundary",
+      "text": "Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settin priyashah@example.com reported the issue.",
+      "expected": [
+        {
+          "start": 233,
+          "end": 254,
+          "label": "email address"
+        }
+      ]
+    },
+    {
+      "category": "boundary-name",
+      "text": "Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings Priya Sharma reported the issue.",
+      "expected": [
+        {
+          "start": 235,
+          "end": 247,
+          "label": "person"
+        }
+      ]
+    },
+    {
+      "category": "boundary-phone",
+      "text": "Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings +1 202-555-0137 is the contact number.",
+      "expected": [
+        {
+          "start": 235,
+          "end": 250,
+          "label": "phone number"
+        }
+      ]
+    },
+    {
+      "category": "boundary",
+      "text": "Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings. Please inspect th priyashah@example.com reported the issue.",
+      "expected": [
+        {
+          "start": 313,
+          "end": 334,
+          "label": "email address"
+        }
+      ]
+    },
+    {
+      "category": "boundary-name",
+      "text": "Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings. Please inspect the  Priya Sharma reported the issue.",
+      "expected": [
+        {
+          "start": 315,
+          "end": 327,
+          "label": "person"
+        }
+      ]
+    },
+    {
+      "category": "boundary-phone",
+      "text": "Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings. Please inspect the login flow and check the user settings. Please inspect the  +1 202-555-0137 is the contact number.",
+      "expected": [
+        {
+          "start": 315,
+          "end": 330,
+          "label": "phone number"
+        }
+      ]
+    },
+    {
+      "category": "boundary-long",
+      "text": "Please review the project settings.                   Apartment 204, 100 Riverside Gardens, Mill Road, Springfield, Massachusetts 01101 is the delivery address.",
+      "expected": [
+        {
+          "start": 54,
+          "end": 135,
+          "label": "address"
+        }
+      ]
+    },
+    {
+      "category": "boundary-long",
+      "text": "Please review the project settings. Please review the project settings. Please review the project settings.                           Apartment 204, 100 Riverside Gardens, Mill Road, Springfield, Massachusetts 01101 is the delivery address.",
+      "expected": [
+        {
+          "start": 134,
+          "end": 215,
+          "label": "address"
+        }
+      ]
+    },
+    {
+      "category": "boundary-long",
+      "text": "Please review the project settings. Please review the project settings. Please review the project settings. Please review the project settings.                               Apartment 204, 100 Riverside Gardens, Mill Road, Springfield, Massachusetts 01101 is the delivery address.",
+      "expected": [
+        {
+          "start": 174,
+          "end": 255,
+          "label": "address"
+        }
+      ]
+    },
+    {
+      "category": "boundary-long",
+      "text": "Please review the project settings. Please review the project settings. Please review the project settings. Please review the project settings. Please review the project settings. Please review the project settings. Please review the project settings.   Apartment 204, 100 Riverside Gardens, Mill Road, Springfield, Massachusetts 01101 is the delivery address.",
+      "expected": [
+        {
+          "start": 254,
+          "end": 335,
+          "label": "address"
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "chunk_size": 120,
+      "overlap": 64,
+      "threshold": 0.5,
+      "gliner": {
+        "covered": 57,
+        "missed": 12,
+        "false_alarms": 23,
+        "overmasked_chars": 141
+      },
+      "combined": {
+        "covered": 61,
+        "missed": 8,
+        "false_alarms": 23,
+        "overmasked_chars": 141
+      },
+      "categories": {
+        "person": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "email": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "phone": {
+          "covered": 7,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "address": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 2
+        },
+        "mixed": {
+          "covered": 8,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "multilingual": {
+          "covered": 7,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "code-negative": {
+          "covered": 0,
+          "missed": 0,
+          "false_alarms": 13
+        },
+        "code-positive": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "secret": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "unsupported": {
+          "covered": 0,
+          "missed": 5,
+          "false_alarms": 0
+        },
+        "boundary": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 2
+        },
+        "boundary-name": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 2
+        },
+        "boundary-phone": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 4
+        },
+        "boundary-long": {
+          "covered": 1,
+          "missed": 3,
+          "false_alarms": 0
+        }
+      },
+      "chunks": 120,
+      "details": [
+        {
+          "case": 19,
+          "category": "address",
+          "expected": [
+            {
+              "start": 18,
+              "end": 42,
+              "label": "address"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 8
+            },
+            {
+              "start": 18,
+              "end": 42
+            }
+          ]
+        },
+        {
+          "case": 22,
+          "category": "address",
+          "expected": [
+            {
+              "start": 22,
+              "end": 46,
+              "label": "address"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 12
+            },
+            {
+              "start": 22,
+              "end": 46
+            }
+          ]
+        },
+        {
+          "case": 33,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 15,
+              "end": 19
+            },
+            {
+              "start": 26,
+              "end": 35
+            },
+            {
+              "start": 38,
+              "end": 42
+            },
+            {
+              "start": 65,
+              "end": 74
+            }
+          ]
+        },
+        {
+          "case": 34,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 4
+            },
+            {
+              "start": 32,
+              "end": 36
+            }
+          ]
+        },
+        {
+          "case": 36,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 7
+            }
+          ]
+        },
+        {
+          "case": 37,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 5
+            },
+            {
+              "start": 39,
+              "end": 44
+            }
+          ]
+        },
+        {
+          "case": 38,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 12,
+              "end": 22
+            }
+          ]
+        },
+        {
+          "case": 39,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 11,
+              "end": 16
+            }
+          ]
+        },
+        {
+          "case": 42,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 7,
+              "end": 11
+            }
+          ]
+        },
+        {
+          "case": 44,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 19,
+              "end": 25
+            }
+          ]
+        },
+        {
+          "case": 53,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 20,
+              "end": 33,
+              "label": "date of birth"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 54,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 23,
+              "end": 31,
+              "label": "passport number"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 55,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 23,
+              "end": 36,
+              "label": "ip address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 56,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 21,
+              "end": 33,
+              "label": "bank account"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 57,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 16,
+              "end": 33,
+              "label": "password"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 60,
+          "category": "boundary-phone",
+          "expected": [
+            {
+              "start": 115,
+              "end": 130,
+              "label": "phone number"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 56,
+              "end": 57
+            },
+            {
+              "start": 115,
+              "end": 130
+            }
+          ]
+        },
+        {
+          "case": 63,
+          "category": "boundary-phone",
+          "expected": [
+            {
+              "start": 195,
+              "end": 210,
+              "label": "phone number"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 112,
+              "end": 116
+            },
+            {
+              "start": 195,
+              "end": 210
+            }
+          ]
+        },
+        {
+          "case": 64,
+          "category": "boundary",
+          "expected": [
+            {
+              "start": 233,
+              "end": 254,
+              "label": "email address"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 112,
+              "end": 116
+            },
+            {
+              "start": 226,
+              "end": 254
+            }
+          ]
+        },
+        {
+          "case": 65,
+          "category": "boundary-name",
+          "expected": [
+            {
+              "start": 235,
+              "end": 247,
+              "label": "person"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 112,
+              "end": 116
+            },
+            {
+              "start": 235,
+              "end": 247
+            }
+          ]
+        },
+        {
+          "case": 66,
+          "category": "boundary-phone",
+          "expected": [
+            {
+              "start": 235,
+              "end": 250,
+              "label": "phone number"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 112,
+              "end": 116
+            },
+            {
+              "start": 235,
+              "end": 250
+            }
+          ]
+        },
+        {
+          "case": 67,
+          "category": "boundary",
+          "expected": [
+            {
+              "start": 313,
+              "end": 334,
+              "label": "email address"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 112,
+              "end": 116
+            },
+            {
+              "start": 313,
+              "end": 334
+            }
+          ]
+        },
+        {
+          "case": 68,
+          "category": "boundary-name",
+          "expected": [
+            {
+              "start": 315,
+              "end": 327,
+              "label": "person"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 112,
+              "end": 116
+            },
+            {
+              "start": 315,
+              "end": 327
+            }
+          ]
+        },
+        {
+          "case": 69,
+          "category": "boundary-phone",
+          "expected": [
+            {
+              "start": 315,
+              "end": 330,
+              "label": "phone number"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 112,
+              "end": 116
+            },
+            {
+              "start": 315,
+              "end": 330
+            }
+          ]
+        },
+        {
+          "case": 70,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 54,
+              "end": 135,
+              "label": "address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 72,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 174,
+              "end": 255,
+              "label": "address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 73,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 254,
+              "end": 335,
+              "label": "address"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 254,
+              "end": 290
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "median_seconds": 0.178,
+      "total_seconds": 22.465,
+      "long_median_seconds": 0.776
+    },
+    {
+      "chunk_size": 120,
+      "overlap": 64,
+      "threshold": 0.7,
+      "gliner": {
+        "covered": 52,
+        "missed": 17,
+        "false_alarms": 13,
+        "overmasked_chars": 87
+      },
+      "combined": {
+        "covered": 60,
+        "missed": 9,
+        "false_alarms": 13,
+        "overmasked_chars": 87
+      },
+      "categories": {
+        "person": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "email": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "phone": {
+          "covered": 7,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "address": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 2
+        },
+        "mixed": {
+          "covered": 8,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "multilingual": {
+          "covered": 7,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "code-negative": {
+          "covered": 0,
+          "missed": 0,
+          "false_alarms": 10
+        },
+        "code-positive": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "secret": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "unsupported": {
+          "covered": 0,
+          "missed": 5,
+          "false_alarms": 0
+        },
+        "boundary": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "boundary-name": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "boundary-phone": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 1
+        },
+        "boundary-long": {
+          "covered": 0,
+          "missed": 4,
+          "false_alarms": 0
+        }
+      },
+      "chunks": 120,
+      "details": [
+        {
+          "case": 19,
+          "category": "address",
+          "expected": [
+            {
+              "start": 18,
+              "end": 42,
+              "label": "address"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 8
+            },
+            {
+              "start": 18,
+              "end": 42
+            }
+          ]
+        },
+        {
+          "case": 22,
+          "category": "address",
+          "expected": [
+            {
+              "start": 22,
+              "end": 46,
+              "label": "address"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 12
+            },
+            {
+              "start": 22,
+              "end": 46
+            }
+          ]
+        },
+        {
+          "case": 33,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 15,
+              "end": 19
+            },
+            {
+              "start": 26,
+              "end": 35
+            },
+            {
+              "start": 38,
+              "end": 42
+            },
+            {
+              "start": 65,
+              "end": 74
+            }
+          ]
+        },
+        {
+          "case": 34,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 4
+            },
+            {
+              "start": 32,
+              "end": 36
+            }
+          ]
+        },
+        {
+          "case": 37,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 5
+            }
+          ]
+        },
+        {
+          "case": 38,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 12,
+              "end": 22
+            }
+          ]
+        },
+        {
+          "case": 42,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 7,
+              "end": 11
+            }
+          ]
+        },
+        {
+          "case": 44,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 19,
+              "end": 25
+            }
+          ]
+        },
+        {
+          "case": 53,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 20,
+              "end": 33,
+              "label": "date of birth"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 54,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 23,
+              "end": 31,
+              "label": "passport number"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 55,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 23,
+              "end": 36,
+              "label": "ip address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 56,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 21,
+              "end": 33,
+              "label": "bank account"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 57,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 16,
+              "end": 33,
+              "label": "password"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 63,
+          "category": "boundary-phone",
+          "expected": [
+            {
+              "start": 195,
+              "end": 210,
+              "label": "phone number"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 112,
+              "end": 116
+            },
+            {
+              "start": 195,
+              "end": 210
+            }
+          ]
+        },
+        {
+          "case": 70,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 54,
+              "end": 135,
+              "label": "address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 71,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 134,
+              "end": 215,
+              "label": "address"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 134,
+              "end": 176
+            }
+          ]
+        },
+        {
+          "case": 72,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 174,
+              "end": 255,
+              "label": "address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 73,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 254,
+              "end": 335,
+              "label": "address"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 254,
+              "end": 290
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "median_seconds": 0.178,
+      "total_seconds": 22.315,
+      "long_median_seconds": 0.78
+    },
+    {
+      "chunk_size": 200,
+      "overlap": 64,
+      "threshold": 0.5,
+      "gliner": {
+        "covered": 56,
+        "missed": 13,
+        "false_alarms": 15,
+        "overmasked_chars": 105
+      },
+      "combined": {
+        "covered": 60,
+        "missed": 9,
+        "false_alarms": 15,
+        "overmasked_chars": 105
+      },
+      "categories": {
+        "person": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "email": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "phone": {
+          "covered": 7,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "address": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 2
+        },
+        "mixed": {
+          "covered": 8,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "multilingual": {
+          "covered": 7,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "code-negative": {
+          "covered": 0,
+          "missed": 0,
+          "false_alarms": 13
+        },
+        "code-positive": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "secret": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "unsupported": {
+          "covered": 0,
+          "missed": 5,
+          "false_alarms": 0
+        },
+        "boundary": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "boundary-name": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "boundary-phone": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "boundary-long": {
+          "covered": 0,
+          "missed": 4,
+          "false_alarms": 0
+        }
+      },
+      "chunks": 89,
+      "details": [
+        {
+          "case": 19,
+          "category": "address",
+          "expected": [
+            {
+              "start": 18,
+              "end": 42,
+              "label": "address"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 8
+            },
+            {
+              "start": 18,
+              "end": 42
+            }
+          ]
+        },
+        {
+          "case": 22,
+          "category": "address",
+          "expected": [
+            {
+              "start": 22,
+              "end": 46,
+              "label": "address"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 12
+            },
+            {
+              "start": 22,
+              "end": 46
+            }
+          ]
+        },
+        {
+          "case": 33,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 15,
+              "end": 19
+            },
+            {
+              "start": 26,
+              "end": 35
+            },
+            {
+              "start": 38,
+              "end": 42
+            },
+            {
+              "start": 65,
+              "end": 74
+            }
+          ]
+        },
+        {
+          "case": 34,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 4
+            },
+            {
+              "start": 32,
+              "end": 36
+            }
+          ]
+        },
+        {
+          "case": 36,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 7
+            }
+          ]
+        },
+        {
+          "case": 37,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 5
+            },
+            {
+              "start": 39,
+              "end": 44
+            }
+          ]
+        },
+        {
+          "case": 38,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 12,
+              "end": 22
+            }
+          ]
+        },
+        {
+          "case": 39,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 11,
+              "end": 16
+            }
+          ]
+        },
+        {
+          "case": 42,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 7,
+              "end": 11
+            }
+          ]
+        },
+        {
+          "case": 44,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 19,
+              "end": 25
+            }
+          ]
+        },
+        {
+          "case": 53,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 20,
+              "end": 33,
+              "label": "date of birth"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 54,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 23,
+              "end": 31,
+              "label": "passport number"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 55,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 23,
+              "end": 36,
+              "label": "ip address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 56,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 21,
+              "end": 33,
+              "label": "bank account"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 57,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 16,
+              "end": 33,
+              "label": "password"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 70,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 54,
+              "end": 135,
+              "label": "address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 71,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 134,
+              "end": 215,
+              "label": "address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 72,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 174,
+              "end": 255,
+              "label": "address"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 174,
+              "end": 200
+            }
+          ]
+        },
+        {
+          "case": 73,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 254,
+              "end": 335,
+              "label": "address"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 273,
+              "end": 335
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "median_seconds": 0.182,
+      "total_seconds": 16.927,
+      "long_median_seconds": 0.409
+    },
+    {
+      "chunk_size": 200,
+      "overlap": 64,
+      "threshold": 0.7,
+      "gliner": {
+        "covered": 53,
+        "missed": 16,
+        "false_alarms": 12,
+        "overmasked_chars": 83
+      },
+      "combined": {
+        "covered": 60,
+        "missed": 9,
+        "false_alarms": 12,
+        "overmasked_chars": 83
+      },
+      "categories": {
+        "person": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "email": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "phone": {
+          "covered": 7,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "address": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 2
+        },
+        "mixed": {
+          "covered": 8,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "multilingual": {
+          "covered": 7,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "code-negative": {
+          "covered": 0,
+          "missed": 0,
+          "false_alarms": 10
+        },
+        "code-positive": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "secret": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "unsupported": {
+          "covered": 0,
+          "missed": 5,
+          "false_alarms": 0
+        },
+        "boundary": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "boundary-name": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "boundary-phone": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "boundary-long": {
+          "covered": 0,
+          "missed": 4,
+          "false_alarms": 0
+        }
+      },
+      "chunks": 89,
+      "details": [
+        {
+          "case": 19,
+          "category": "address",
+          "expected": [
+            {
+              "start": 18,
+              "end": 42,
+              "label": "address"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 8
+            },
+            {
+              "start": 18,
+              "end": 42
+            }
+          ]
+        },
+        {
+          "case": 22,
+          "category": "address",
+          "expected": [
+            {
+              "start": 22,
+              "end": 46,
+              "label": "address"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 12
+            },
+            {
+              "start": 22,
+              "end": 46
+            }
+          ]
+        },
+        {
+          "case": 33,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 15,
+              "end": 19
+            },
+            {
+              "start": 26,
+              "end": 35
+            },
+            {
+              "start": 38,
+              "end": 42
+            },
+            {
+              "start": 65,
+              "end": 74
+            }
+          ]
+        },
+        {
+          "case": 34,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 4
+            },
+            {
+              "start": 32,
+              "end": 36
+            }
+          ]
+        },
+        {
+          "case": 37,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 5
+            }
+          ]
+        },
+        {
+          "case": 38,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 12,
+              "end": 22
+            }
+          ]
+        },
+        {
+          "case": 42,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 7,
+              "end": 11
+            }
+          ]
+        },
+        {
+          "case": 44,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 19,
+              "end": 25
+            }
+          ]
+        },
+        {
+          "case": 53,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 20,
+              "end": 33,
+              "label": "date of birth"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 54,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 23,
+              "end": 31,
+              "label": "passport number"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 55,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 23,
+              "end": 36,
+              "label": "ip address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 56,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 21,
+              "end": 33,
+              "label": "bank account"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 57,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 16,
+              "end": 33,
+              "label": "password"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 70,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 54,
+              "end": 135,
+              "label": "address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 71,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 134,
+              "end": 215,
+              "label": "address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 72,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 174,
+              "end": 255,
+              "label": "address"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 174,
+              "end": 200
+            }
+          ]
+        },
+        {
+          "case": 73,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 254,
+              "end": 335,
+              "label": "address"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 273,
+              "end": 335
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "median_seconds": 0.169,
+      "total_seconds": 16.159,
+      "long_median_seconds": 0.4
+    },
+    {
+      "chunk_size": 240,
+      "overlap": 80,
+      "threshold": 0.5,
+      "gliner": {
+        "covered": 56,
+        "missed": 13,
+        "false_alarms": 15,
+        "overmasked_chars": 105
+      },
+      "combined": {
+        "covered": 60,
+        "missed": 9,
+        "false_alarms": 15,
+        "overmasked_chars": 105
+      },
+      "categories": {
+        "person": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "email": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "phone": {
+          "covered": 7,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "address": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 2
+        },
+        "mixed": {
+          "covered": 8,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "multilingual": {
+          "covered": 7,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "code-negative": {
+          "covered": 0,
+          "missed": 0,
+          "false_alarms": 13
+        },
+        "code-positive": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "secret": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "unsupported": {
+          "covered": 0,
+          "missed": 5,
+          "false_alarms": 0
+        },
+        "boundary": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "boundary-name": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "boundary-phone": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "boundary-long": {
+          "covered": 0,
+          "missed": 4,
+          "false_alarms": 0
+        }
+      },
+      "chunks": 81,
+      "details": [
+        {
+          "case": 19,
+          "category": "address",
+          "expected": [
+            {
+              "start": 18,
+              "end": 42,
+              "label": "address"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 8
+            },
+            {
+              "start": 18,
+              "end": 42
+            }
+          ]
+        },
+        {
+          "case": 22,
+          "category": "address",
+          "expected": [
+            {
+              "start": 22,
+              "end": 46,
+              "label": "address"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 12
+            },
+            {
+              "start": 22,
+              "end": 46
+            }
+          ]
+        },
+        {
+          "case": 33,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 15,
+              "end": 19
+            },
+            {
+              "start": 26,
+              "end": 35
+            },
+            {
+              "start": 38,
+              "end": 42
+            },
+            {
+              "start": 65,
+              "end": 74
+            }
+          ]
+        },
+        {
+          "case": 34,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 4
+            },
+            {
+              "start": 32,
+              "end": 36
+            }
+          ]
+        },
+        {
+          "case": 36,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 7
+            }
+          ]
+        },
+        {
+          "case": 37,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 5
+            },
+            {
+              "start": 39,
+              "end": 44
+            }
+          ]
+        },
+        {
+          "case": 38,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 12,
+              "end": 22
+            }
+          ]
+        },
+        {
+          "case": 39,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 11,
+              "end": 16
+            }
+          ]
+        },
+        {
+          "case": 42,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 7,
+              "end": 11
+            }
+          ]
+        },
+        {
+          "case": 44,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 19,
+              "end": 25
+            }
+          ]
+        },
+        {
+          "case": 53,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 20,
+              "end": 33,
+              "label": "date of birth"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 54,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 23,
+              "end": 31,
+              "label": "passport number"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 55,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 23,
+              "end": 36,
+              "label": "ip address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 56,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 21,
+              "end": 33,
+              "label": "bank account"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 57,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 16,
+              "end": 33,
+              "label": "password"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 70,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 54,
+              "end": 135,
+              "label": "address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 71,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 134,
+              "end": 215,
+              "label": "address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 72,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 174,
+              "end": 255,
+              "label": "address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 73,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 254,
+              "end": 335,
+              "label": "address"
+            }
+          ],
+          "predicted": []
+        }
+      ],
+      "errors": [],
+      "median_seconds": 0.175,
+      "total_seconds": 15.016,
+      "long_median_seconds": 0.315
+    },
+    {
+      "chunk_size": 240,
+      "overlap": 80,
+      "threshold": 0.7,
+      "gliner": {
+        "covered": 53,
+        "missed": 16,
+        "false_alarms": 12,
+        "overmasked_chars": 83
+      },
+      "combined": {
+        "covered": 60,
+        "missed": 9,
+        "false_alarms": 12,
+        "overmasked_chars": 83
+      },
+      "categories": {
+        "person": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "email": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "phone": {
+          "covered": 7,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "address": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 2
+        },
+        "mixed": {
+          "covered": 8,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "multilingual": {
+          "covered": 7,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "code-negative": {
+          "covered": 0,
+          "missed": 0,
+          "false_alarms": 10
+        },
+        "code-positive": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "secret": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "unsupported": {
+          "covered": 0,
+          "missed": 5,
+          "false_alarms": 0
+        },
+        "boundary": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "boundary-name": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "boundary-phone": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "boundary-long": {
+          "covered": 0,
+          "missed": 4,
+          "false_alarms": 0
+        }
+      },
+      "chunks": 81,
+      "details": [
+        {
+          "case": 19,
+          "category": "address",
+          "expected": [
+            {
+              "start": 18,
+              "end": 42,
+              "label": "address"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 8
+            },
+            {
+              "start": 18,
+              "end": 42
+            }
+          ]
+        },
+        {
+          "case": 22,
+          "category": "address",
+          "expected": [
+            {
+              "start": 22,
+              "end": 46,
+              "label": "address"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 12
+            },
+            {
+              "start": 22,
+              "end": 46
+            }
+          ]
+        },
+        {
+          "case": 33,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 15,
+              "end": 19
+            },
+            {
+              "start": 26,
+              "end": 35
+            },
+            {
+              "start": 38,
+              "end": 42
+            },
+            {
+              "start": 65,
+              "end": 74
+            }
+          ]
+        },
+        {
+          "case": 34,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 4
+            },
+            {
+              "start": 32,
+              "end": 36
+            }
+          ]
+        },
+        {
+          "case": 37,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 5
+            }
+          ]
+        },
+        {
+          "case": 38,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 12,
+              "end": 22
+            }
+          ]
+        },
+        {
+          "case": 42,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 7,
+              "end": 11
+            }
+          ]
+        },
+        {
+          "case": 44,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 19,
+              "end": 25
+            }
+          ]
+        },
+        {
+          "case": 53,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 20,
+              "end": 33,
+              "label": "date of birth"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 54,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 23,
+              "end": 31,
+              "label": "passport number"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 55,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 23,
+              "end": 36,
+              "label": "ip address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 56,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 21,
+              "end": 33,
+              "label": "bank account"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 57,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 16,
+              "end": 33,
+              "label": "password"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 70,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 54,
+              "end": 135,
+              "label": "address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 71,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 134,
+              "end": 215,
+              "label": "address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 72,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 174,
+              "end": 255,
+              "label": "address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 73,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 254,
+              "end": 335,
+              "label": "address"
+            }
+          ],
+          "predicted": []
+        }
+      ],
+      "errors": [],
+      "median_seconds": 0.168,
+      "total_seconds": 14.72,
+      "long_median_seconds": 0.307
+    },
+    {
+      "chunk_size": 320,
+      "overlap": 96,
+      "threshold": 0.5,
+      "gliner": {
+        "covered": 56,
+        "missed": 13,
+        "false_alarms": 15,
+        "overmasked_chars": 105
+      },
+      "combined": {
+        "covered": 60,
+        "missed": 9,
+        "false_alarms": 15,
+        "overmasked_chars": 105
+      },
+      "categories": {
+        "person": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "email": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "phone": {
+          "covered": 7,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "address": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 2
+        },
+        "mixed": {
+          "covered": 8,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "multilingual": {
+          "covered": 7,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "code-negative": {
+          "covered": 0,
+          "missed": 0,
+          "false_alarms": 13
+        },
+        "code-positive": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "secret": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "unsupported": {
+          "covered": 0,
+          "missed": 5,
+          "false_alarms": 0
+        },
+        "boundary": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "boundary-name": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "boundary-phone": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "boundary-long": {
+          "covered": 0,
+          "missed": 4,
+          "false_alarms": 0
+        }
+      },
+      "chunks": 77,
+      "details": [
+        {
+          "case": 19,
+          "category": "address",
+          "expected": [
+            {
+              "start": 18,
+              "end": 42,
+              "label": "address"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 8
+            },
+            {
+              "start": 18,
+              "end": 42
+            }
+          ]
+        },
+        {
+          "case": 22,
+          "category": "address",
+          "expected": [
+            {
+              "start": 22,
+              "end": 46,
+              "label": "address"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 12
+            },
+            {
+              "start": 22,
+              "end": 46
+            }
+          ]
+        },
+        {
+          "case": 33,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 15,
+              "end": 19
+            },
+            {
+              "start": 26,
+              "end": 35
+            },
+            {
+              "start": 38,
+              "end": 42
+            },
+            {
+              "start": 65,
+              "end": 74
+            }
+          ]
+        },
+        {
+          "case": 34,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 4
+            },
+            {
+              "start": 32,
+              "end": 36
+            }
+          ]
+        },
+        {
+          "case": 36,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 7
+            }
+          ]
+        },
+        {
+          "case": 37,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 5
+            },
+            {
+              "start": 39,
+              "end": 44
+            }
+          ]
+        },
+        {
+          "case": 38,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 12,
+              "end": 22
+            }
+          ]
+        },
+        {
+          "case": 39,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 11,
+              "end": 16
+            }
+          ]
+        },
+        {
+          "case": 42,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 7,
+              "end": 11
+            }
+          ]
+        },
+        {
+          "case": 44,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 19,
+              "end": 25
+            }
+          ]
+        },
+        {
+          "case": 53,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 20,
+              "end": 33,
+              "label": "date of birth"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 54,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 23,
+              "end": 31,
+              "label": "passport number"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 55,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 23,
+              "end": 36,
+              "label": "ip address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 56,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 21,
+              "end": 33,
+              "label": "bank account"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 57,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 16,
+              "end": 33,
+              "label": "password"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 70,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 54,
+              "end": 135,
+              "label": "address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 71,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 134,
+              "end": 215,
+              "label": "address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 72,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 174,
+              "end": 255,
+              "label": "address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 73,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 254,
+              "end": 335,
+              "label": "address"
+            }
+          ],
+          "predicted": []
+        }
+      ],
+      "errors": [],
+      "median_seconds": 0.172,
+      "total_seconds": 14.147,
+      "long_median_seconds": 0.231
+    },
+    {
+      "chunk_size": 320,
+      "overlap": 96,
+      "threshold": 0.7,
+      "gliner": {
+        "covered": 53,
+        "missed": 16,
+        "false_alarms": 12,
+        "overmasked_chars": 83
+      },
+      "combined": {
+        "covered": 60,
+        "missed": 9,
+        "false_alarms": 12,
+        "overmasked_chars": 83
+      },
+      "categories": {
+        "person": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "email": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "phone": {
+          "covered": 7,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "address": {
+          "covered": 6,
+          "missed": 0,
+          "false_alarms": 2
+        },
+        "mixed": {
+          "covered": 8,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "multilingual": {
+          "covered": 7,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "code-negative": {
+          "covered": 0,
+          "missed": 0,
+          "false_alarms": 10
+        },
+        "code-positive": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "secret": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "unsupported": {
+          "covered": 0,
+          "missed": 5,
+          "false_alarms": 0
+        },
+        "boundary": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "boundary-name": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "boundary-phone": {
+          "covered": 4,
+          "missed": 0,
+          "false_alarms": 0
+        },
+        "boundary-long": {
+          "covered": 0,
+          "missed": 4,
+          "false_alarms": 0
+        }
+      },
+      "chunks": 77,
+      "details": [
+        {
+          "case": 19,
+          "category": "address",
+          "expected": [
+            {
+              "start": 18,
+              "end": 42,
+              "label": "address"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 8
+            },
+            {
+              "start": 18,
+              "end": 42
+            }
+          ]
+        },
+        {
+          "case": 22,
+          "category": "address",
+          "expected": [
+            {
+              "start": 22,
+              "end": 46,
+              "label": "address"
+            }
+          ],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 12
+            },
+            {
+              "start": 22,
+              "end": 46
+            }
+          ]
+        },
+        {
+          "case": 33,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 15,
+              "end": 19
+            },
+            {
+              "start": 26,
+              "end": 35
+            },
+            {
+              "start": 38,
+              "end": 42
+            },
+            {
+              "start": 65,
+              "end": 74
+            }
+          ]
+        },
+        {
+          "case": 34,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 4
+            },
+            {
+              "start": 32,
+              "end": 36
+            }
+          ]
+        },
+        {
+          "case": 37,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 0,
+              "end": 5
+            }
+          ]
+        },
+        {
+          "case": 38,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 12,
+              "end": 22
+            }
+          ]
+        },
+        {
+          "case": 42,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 7,
+              "end": 11
+            }
+          ]
+        },
+        {
+          "case": 44,
+          "category": "code-negative",
+          "expected": [],
+          "predicted": [
+            {
+              "start": 19,
+              "end": 25
+            }
+          ]
+        },
+        {
+          "case": 53,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 20,
+              "end": 33,
+              "label": "date of birth"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 54,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 23,
+              "end": 31,
+              "label": "passport number"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 55,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 23,
+              "end": 36,
+              "label": "ip address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 56,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 21,
+              "end": 33,
+              "label": "bank account"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 57,
+          "category": "unsupported",
+          "expected": [
+            {
+              "start": 16,
+              "end": 33,
+              "label": "password"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 70,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 54,
+              "end": 135,
+              "label": "address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 71,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 134,
+              "end": 215,
+              "label": "address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 72,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 174,
+              "end": 255,
+              "label": "address"
+            }
+          ],
+          "predicted": []
+        },
+        {
+          "case": 73,
+          "category": "boundary-long",
+          "expected": [
+            {
+              "start": 254,
+              "end": 335,
+              "label": "address"
+            }
+          ],
+          "predicted": []
+        }
+      ],
+      "errors": [],
+      "median_seconds": 0.168,
+      "total_seconds": 14.023,
+      "long_median_seconds": 0.229
+    }
+  ]
+}

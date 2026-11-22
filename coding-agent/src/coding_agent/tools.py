@@ -45,7 +45,13 @@ def run_tests() -> str:
     return NOT_IMPLEMENTED
 
 
-TOOLS = [list_files, search_files, read_file, edit_file, run_command, run_tests]
+@tool
+def set_env_secret(name: str, placeholder: str) -> str:
+    """Write a secret placeholder from this turn to a named variable in the workspace root .env."""
+    return NOT_IMPLEMENTED
+
+
+TOOLS = [list_files, search_files, read_file, edit_file, run_command, run_tests, set_env_secret]
 
 
 def validate_tool_call(call):

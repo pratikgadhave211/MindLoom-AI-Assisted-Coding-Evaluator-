@@ -253,6 +253,8 @@ def create_app(manager=None, token=None):
             raise HTTPException(status_code=404, detail='Chat not found.') from None
         except ValueError as error:
             raise HTTPException(status_code=409, detail=str(error)) from None
+        except RuntimeError:
+            raise HTTPException(status_code=503, detail="Privacy scan unavailable. The prompt was not sent.") from None
 
     @app.post("/attempts/{attempt_id}/turns", status_code=202, dependencies=[Depends(authorize)])
     def start_turn(attempt_id: str, request: Prompt):
@@ -267,6 +269,8 @@ def create_app(manager=None, token=None):
             raise HTTPException(status_code=404, detail="Attempt not found.") from None
         except ValueError as error:
             raise HTTPException(status_code=409, detail=str(error)) from None
+        except RuntimeError:
+            raise HTTPException(status_code=503, detail="Privacy scan unavailable. The prompt was not sent.") from None
 
     @app.post("/attempts/{attempt_id}/ide", status_code=202, dependencies=[Depends(authorize)])
     def start_ide(attempt_id: str):

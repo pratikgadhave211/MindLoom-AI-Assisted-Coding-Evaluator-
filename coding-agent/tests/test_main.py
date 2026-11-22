@@ -61,7 +61,7 @@ def test_model_setup_error_does_not_print_secrets(monkeypatch, capsys):
     assert "sensitive-key" not in capsys.readouterr().out
 
 
-def test_terminal_shows_jev_score(monkeypatch, capsys):
+def test_terminal_shows_input_safety_score(monkeypatch, capsys):
     from coding_agent import main
 
     class FakeModel:
@@ -71,13 +71,14 @@ def test_terminal_shows_jev_score(monkeypatch, capsys):
     monkeypatch.setattr("builtins.input", lambda _: "Hi")
     monkeypatch.setenv("OPENROUTER_API_KEY", "test-key")
     monkeypatch.setenv("TYPESAFE_API_KEY", "test-jev-key")
-    monkeypatch.setattr(main, "check_with_jev", lambda prompt, key: 0.42)
+    monkeypatch.setattr(main, "check_input_safety", lambda prompt, key: 0.42)
+    monkeypatch.setattr(main, "check_input", lambda prompt, checker: {"risk_score": checker(prompt), "flagged": False})
     monkeypatch.setattr(main, "make_model", lambda config, tools: FakeModel())
     monkeypatch.setattr(main, "start_workspace", lambda template: "test-workspace")
     monkeypatch.setattr(main, "stop_workspace", lambda workspace: None)
     assert main.main() == 0
     output = capsys.readouterr().out
-    assert "Jev coding-request score: 0.42" in output
+    assert "Input safety risk score: 0.42" in output
     assert "Hello" in output
     assert "test-jev-key" not in output
 
